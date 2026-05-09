@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+
+       "name": "MyLauncher",
+            "type":"clr",
+            "request": "launch",
+            "preLaunchTask": "mybuild",
+            "program": "${workspaceFolder}/bin/Debug/RebarComponentInserter.exe",
+            "args":[],
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}
