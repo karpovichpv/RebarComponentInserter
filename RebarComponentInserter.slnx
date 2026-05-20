@@ -1,2 +1,7 @@
 <Solution>
+  <Folder Name="/.solution items/">
+    <File Path="Directory.Build.Props" />
+  </Folder>
+  <Project Path="RebarComponentInserter.App/RebarComponentInserter.App.csproj" Id="b70e18f8-f9f1-46ce-8c7e-88ea7d5056ac" />
+  <Project Path="RebarComponentInserter/RebarComponentInserter.csproj" />
 </Solution>
