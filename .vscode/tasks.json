@@ -3,10 +3,10 @@
     "tasks": [
         {
             "label": "mybuild",
-            "command":"C:\\Windows\\WinSxS\\wow64_msbuild_b03f5f7f11d50a3a_4.0.15840.3_none_0601d0fb5db0765c\\MSBuild.exe",
+            "command":"C:\\Program Files\\dotnet\\sdk\\10.0.300\\MSBuild.exe",
             "type":"shell",
             "args":[
-                "${workspaceFolder}/RebarComponentInserter.csproj",
+                "${workspaceFolder}/RebarComponentInserter.App/RebarComponentInserter.App.csproj",
                 "/t:Build",
                 "/p:Configuration=Debug",
                 "/p:Platform=\"AnyCPU\""
