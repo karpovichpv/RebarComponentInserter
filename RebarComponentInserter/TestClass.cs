@@ -1,5 +1,5 @@
-﻿using Tekla.Structures.Geometry3d;
-using Tekla.Structures.Model;
+﻿using Tekla.Structures.Model;
+using Tekla.Structures.Model.UI;
 
 namespace RebarComponentInserter
 {
@@ -7,23 +7,24 @@ namespace RebarComponentInserter
     {
         public static void Create()
         {
-            Beam beam = new Beam()
+            Picker picker = new();
+            ModelObject panel = picker.PickObject(Picker.PickObjectEnum.PICK_ONE_PART);
+
+            ComponentInserterData data = new()
             {
-                StartPoint = new Point(),
-                EndPoint = new Point(10000, 0, 0),
-                AssemblyNumber = new NumberingSeries(),
-                Class = "2",
-                CastUnitType = Part.CastUnitTypeEnum.CAST_IN_PLACE,
-                EndPointOffset = new Offset(),
-                StartPointOffset = new Offset(),
-                Material = new Material() { MaterialString = "Steel_Undefined" },
-                Name = "BEAM",
-                Profile = new Profile() { ProfileString = "200*500" },
-                PartNumber = new NumberingSeries(),
-                Position = new Position(),
+                ComponentAttributes = "standard",
+                ComponentPointsInputType = ComponentPointsInputType.TwoPointsByOnePointInput,
+                ComponentName = "Каркас_1",
+                ComponentNumber = -1,
+                Wall = panel as Beam,
+                Spacing = 200,
+                SpacingType = RebarSpacing.SpacingType.EXACT_FLEXIBLE_FIRST,
+                ExcludeType = RebarSpacing.ExcludeTypeEnum.EXCLUDE_TYPE_NONE,
+                StartPoint = (panel as Beam).StartPoint,
+                EndPoint = (panel as Beam).EndPoint
             };
 
-            beam.Insert();
+            ComponentInserter.Insert(data);
         }
     }
 }
