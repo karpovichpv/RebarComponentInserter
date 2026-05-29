@@ -6,7 +6,7 @@
             "type":"clr",
             "request": "launch",
             "preLaunchTask": "mybuild",
-            "program": "${workspaceFolder}/bin/Debug/RebarComponentInserter.exe",
+            "program": "${workspaceFolder}/RebarComponentInserter.App/bin/Debug/net48/RebarComponentInserter.App.exe",
             "args":[],
             "console": "internalConsole",
             "stopAtEntry": false,
