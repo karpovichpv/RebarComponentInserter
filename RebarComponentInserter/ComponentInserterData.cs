@@ -11,7 +11,12 @@ namespace RebarComponentInserter
         public Point EndPoint { get; set; }
         public string ComponentName { get; set; }
         public string ComponentAttributes { get; set; }
+
+        /// <summary>
+        /// Количество каркасов по длине
+        /// </summary>
         public int ComponentNumber { get; set; }
+
         public ComponentPointsInputType ComponentPointsInputType { get; set; }
         public double Spacing { get; set; }
         public SpacingType SpacingType { get; set; }

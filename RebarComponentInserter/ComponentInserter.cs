@@ -1,4 +1,6 @@
 ﻿using RebarComponentInserter.Extensions;
+using System;
+using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 
 namespace RebarComponentInserter
@@ -7,17 +9,26 @@ namespace RebarComponentInserter
     {
         public static void Insert(ComponentInserterData data)
         {
-            InsertComponent(data);
+            double distance = data.StartPoint.GetDistance(data.EndPoint);
+            int count = (int)Math.Floor(distance / data.Spacing);
+
+            CoordinateSystem coordinateSystem = data.Wall.GetCoordinateSystem();
+            for (int i = 0; i < count; i++)
+            {
+                Point insertPoint = data.StartPoint.Copy(coordinateSystem.AxisX, data.Spacing * i);
+                InsertComponent(insertPoint, coordinateSystem.AxisY, data.ComponentName, data.ComponentNumber);
+            }
         }
 
-        private static void InsertComponent(ComponentInserterData data)
+        private static void InsertComponent(Point insertPoint, Vector direction, string name, int number)
         {
             CustomPart customPart = new()
             {
-                Name = data.ComponentName,
-                Number = data.ComponentNumber
+                Name = name,
+                Number = number
             };
-            customPart.SetInputPositions(data.Wall.StartPoint, data.Wall.StartPoint.Copy(data.Wall.GetCoordinateSystem().AxisY, 200));
+
+            customPart.SetInputPositions(insertPoint, insertPoint.Copy(direction, 100));
             customPart.Insert();
 
             //Component component = new()
