@@ -5,6 +5,7 @@
 
 # References folder
 References/
+.claude/
 
 # User-specific files
 *.rsuser
