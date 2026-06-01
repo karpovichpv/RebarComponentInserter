@@ -40,8 +40,6 @@ namespace RebarComponentInserter
                 Spacing = 200,
                 SpacingType = RebarSpacing.SpacingType.EXACT_FLEXIBLE_FIRST,
                 ExcludeType = RebarSpacing.ExcludeTypeEnum.EXCLUDE_TYPE_NONE,
-                StartPoint = (panel as Beam).StartPoint,
-                EndPoint = (panel as Beam).EndPoint
             };
 
             ComponentInserter.Insert(data);
