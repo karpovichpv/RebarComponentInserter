@@ -4,6 +4,32 @@ using static Tekla.Structures.Model.RebarSpacing;
 
 namespace RebarComponentInserter
 {
+    internal enum SpacingType
+    {
+        NotSet,
+
+        /// <summary>
+        /// First flexible spacing and first component exist
+        /// </summary>
+        FirstFlexibleExist,
+
+        /// <summary>
+        /// Last flexible spacing and first component exist
+        /// </summary>
+        LastFlexibleExist,
+
+
+        /// <summary>
+        /// First flexible spacing and first component exclude
+        /// </summary>
+        FirstFlexibleExclude,
+
+        /// <summary>
+        /// First flexible spacing and last component exclude
+        /// </summary>
+        LastFlexibleExclude,
+    }
+
     internal class ComponentInserterData
     {
         public Beam Wall { get; set; }
@@ -20,6 +46,5 @@ namespace RebarComponentInserter
         public ComponentPointsInputType ComponentPointsInputType { get; set; }
         public double Spacing { get; set; }
         public SpacingType SpacingType { get; set; }
-        public ExcludeTypeEnum ExcludeType { get; set; }
     }
 }
