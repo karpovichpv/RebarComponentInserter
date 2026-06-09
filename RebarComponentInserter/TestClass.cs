@@ -1,3 +1,4 @@
+using System;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 using RebarComponentInserter.Extensions;
@@ -8,8 +9,8 @@ namespace RebarComponentInserter
     {
         public static void Create()
         {
-            // Create 10 walls with 1000mm offset on Y coordinate
-            const int wallCount = 10;
+            // Create walls based on SpacingType enum values count
+            int wallCount = Enum.GetValues(typeof(SpacingType)).Length;
             const double yOffset = 1000; // 1 meter offset
 
             for (int i = 0; i < wallCount; i++)
@@ -17,14 +18,15 @@ namespace RebarComponentInserter
                 double y = i * yOffset;
                 Point startPoint = new Point(0, y, 0);
                 Point endPoint = new Point(5000, y, 0); // 5m x 3m wall
+                SpacingType spacingType = (SpacingType)i;
 
-                CreateWall(startPoint, endPoint);
+                CreateWall(startPoint, endPoint, spacingType);
             }
 
             new Model().CommitChanges();
         }
 
-        private static void CreateWall(Point startPoint, Point endPoint)
+        private static void CreateWall(Point startPoint, Point endPoint, SpacingType spacingType)
         {
             Beam beam = CreateTestBeam(startPoint, endPoint);
 
@@ -38,8 +40,7 @@ namespace RebarComponentInserter
                 StartPoint = startPoint,
                 EndPoint = endPoint,
                 Spacing = 200,
-                SpacingType = RebarSpacing.SpacingType.EXACT_FLEXIBLE_FIRST,
-                ExcludeType = RebarSpacing.ExcludeTypeEnum.EXCLUDE_TYPE_NONE,
+                SpacingType = spacingType,
             };
 
             ComponentInserter.Insert(data);

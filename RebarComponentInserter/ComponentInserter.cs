@@ -13,7 +13,29 @@ namespace RebarComponentInserter
             int count = (int)Math.Floor(distance / data.Spacing);
 
             CoordinateSystem coordinateSystem = data.Wall.GetCoordinateSystem();
-            for (int i = 0; i < count; i++)
+
+            // Handle SpacingType for insert point calculation
+            int startIndex = data.SpacingType switch
+            {
+                SpacingType.NotSet => 0,
+                SpacingType.FirstFlexibleExist => 0,
+                SpacingType.LastFlexibleExist => 0,
+                SpacingType.FirstFlexibleExclude => 1,
+                SpacingType.LastFlexibleExclude => 0,
+                _ => 0
+            };
+
+            int endIndex = data.SpacingType switch
+            {
+                SpacingType.NotSet => count,
+                SpacingType.FirstFlexibleExist => count,
+                SpacingType.LastFlexibleExist => count,
+                SpacingType.FirstFlexibleExclude => count,
+                SpacingType.LastFlexibleExclude => count - 1,
+                _ => count
+            };
+
+            for (int i = startIndex; i < endIndex; i++)
             {
                 Point insertPoint = data.StartPoint.Copy(coordinateSystem.AxisX, data.Spacing * i);
                 InsertComponent(insertPoint, coordinateSystem.AxisY, data.ComponentName, data.ComponentNumber);
