@@ -52,24 +52,17 @@ namespace RebarComponentInserter
 
             customPart.SetInputPositions(insertPoint, insertPoint.Copy(direction, 100));
             customPart.Insert();
+            customPart.Position = new()
+            {
+                Plane = Position.PlaneEnum.MIDDLE,
+                Depth = Position.DepthEnum.MIDDLE,
+                DepthOffset = 0,
+                PlaneOffset = 0,
+                Rotation = Position.RotationEnum.BELOW,
+                RotationOffset = 90
+            };
 
-            //Component component = new()
-            //{
-            //    Name = data.ComponentName,
-            //    Number = data.ComponentNumber,
-            //};
-
-            //ComponentInput input = new();
-            //input.AddInputObject(data.Wall);
-            //if (data.ComponentPointsInputType is ComponentPointsInputType.TwoPointsByOnePointInput)
-            //{
-            //    input.AddOneInputPosition(data.Wall.StartPoint);
-            //    input.AddOneInputPosition(data.Wall.EndPoint);
-            //}
-            //component.SetComponentInput(input);
-
-            //component.Insert();
-
+            customPart.Modify();
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            // RebarComponentInserter.TestClass.Create();
+            RebarComponentInserter.TestClass.Create();
         }
     }
 }

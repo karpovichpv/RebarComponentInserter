@@ -1,7 +1,7 @@
+using RebarComponentInserter.Extensions;
 using System;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
-using RebarComponentInserter.Extensions;
 
 namespace RebarComponentInserter
 {

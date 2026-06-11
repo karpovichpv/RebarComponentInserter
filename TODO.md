@@ -9,3 +9,10 @@
 5. Send attributes to the component:
     - add controls on the form
     - send attribute values (WIDTH, LENGTH) in the code and write the them to the components attributes
+
+6. Add automatic a copy process after the plugin build
+7. Solve the problem with the plugin rotation when it is inserted into the wall
+    - write message
+    - make a plane how to solve
+
+
