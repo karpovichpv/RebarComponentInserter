@@ -49,11 +49,13 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <Label
                     x:Name="partNameLabel"
@@ -73,6 +75,7 @@
                     Text="{Binding ComponentName, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </StackPanel>
+
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Label
                     x:Name="attributeNameLabel"
@@ -92,6 +95,7 @@
                     Text="{Binding ComponentAttribute, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </StackPanel>
+
             <StackPanel Grid.Row="4" Orientation="Horizontal">
                 <Label
                     HorizontalAlignment="Left"
@@ -112,6 +116,7 @@
                     <TextBlock Text="4" />
                 </ComboBox>
             </StackPanel>
+
             <StackPanel Grid.Row="5" Orientation="Horizontal">
                 <Label
                     HorizontalAlignment="Left"
@@ -127,6 +132,7 @@
                     VerticalAlignment="Center"
                     Text="{Binding Path=ClassNumber, Mode=TwoWay}"/>
             </StackPanel>
+
             <StackPanel Grid.Row="3" Orientation="Horizontal">
                 <Label
                     x:Name="label_Copy1"
@@ -145,6 +151,44 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Text="{Binding OffsetFromEnd, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Orientation="Horizontal">
+                <Label
+                    Height="30"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="Передать ширину стены в атрибут" />
+                <UIControls:WpfFilterCheckBox
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    AttributeName="{x:Static local:AttributeNames.ComponentRawWidth}" />
+                <TextBox
+                    Width="120"
+                    Height="23"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="{Binding ComponentRawWidth, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="5" Orientation="Horizontal">
+                <Label
+                    Height="30"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="Передать высоту стены в атрибут" />
+                <UIControls:WpfFilterCheckBox
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    AttributeName="{x:Static local:AttributeNames.ComponentRawHeight}" />
+                <TextBox
+                    Width="120"
+                    Height="23"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="{Binding ComponentRawHeight, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </Grid>

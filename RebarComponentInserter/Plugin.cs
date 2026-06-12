@@ -1,8 +1,7 @@
-
-using RebarComponentInserter.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using RebarComponentInserter.Extensions;
 using Tekla.Structures;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
@@ -18,9 +17,11 @@ namespace RebarComponentInserter
         private readonly Model _model;
         private readonly WorkPlaneHandler _workPlaneHandler;
         private readonly TransformationPlane _basicTransformationPlane;
+        private PluginData _data;
 
-        public RebarComponentInserterPlugin()
+        public RebarComponentInserterPlugin(PluginData data)
         {
+            _data = data;
             Model model = new();
             WorkPlaneHandler workPlaneHandler = model.GetWorkPlaneHandler();
 
@@ -32,7 +33,10 @@ namespace RebarComponentInserter
         public override List<InputDefinition> DefineInput()
         {
             Picker picker = new();
-            ModelObject modelObject = picker.PickObject(Picker.PickObjectEnum.PICK_ONE_PART, "Select a wall");
+            ModelObject modelObject = picker.PickObject(
+                Picker.PickObjectEnum.PICK_ONE_PART,
+                "Select a wall"
+            );
             return [new InputDefinition(modelObject.Identifier)];
         }
 
@@ -54,7 +58,8 @@ namespace RebarComponentInserter
                     ComponentInserterData data = new()
                     {
                         ComponentAttributes = "standard",
-                        ComponentPointsInputType = ComponentPointsInputType.TwoPointsByOnePointInput,
+                        ComponentPointsInputType =
+                            ComponentPointsInputType.TwoPointsByOnePointInput,
                         ComponentName = "Каркас_1",
                         ComponentNumber = -1,
                         Wall = wall,
@@ -92,7 +97,8 @@ namespace RebarComponentInserter
                 CoordinateSystem insertionCs = new(
                     wallCs.Origin.Copy(wallCs.AxisY * -1, height / 2),
                     wallCs.AxisX,
-                    wallCs.AxisY);
+                    wallCs.AxisY
+                );
                 return new TransformationPlane(insertionCs);
             }
 
