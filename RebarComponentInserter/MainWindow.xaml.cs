@@ -1,6 +1,4 @@
 using System;
-using System.Windows;
-using System.ComponentModel;
 using Tekla.Structures.Dialog;
 
 namespace RebarComponentInserter
@@ -48,37 +46,6 @@ namespace RebarComponentInserter
         private void WPFOkApplyModifyGetOnOffCancel_OnOffClicked(object sender, EventArgs e)
         {
             this.ToggleSelection();
-        }
-
-        private void WPFMaterialCatalog_SelectClicked(object sender, EventArgs e)
-        {
-            this.materialCatalog.SelectedMaterial = this.dataModel.Material;
-        }
-
-        private void WPFMaterialCatalog_SelectionDone(object sender, EventArgs e)
-        {
-            this.dataModel.Material = this.materialCatalog.SelectedMaterial;
-        }
-
-        private void profileCatalog_SelectClicked(object sender, EventArgs e)
-        {
-            this.profileCatalog.SelectedProfile = this.dataModel.Profilename;
-        }
-
-        private void profileCatalog_SelectionDone(object sender, EventArgs e)
-        {
-            this.dataModel.Profilename = this.profileCatalog.SelectedProfile;
-        }
-        private void componentCatalog_SelectClicked(object sender, EventArgs e)
-        {
-            this.componentCatalog.SelectedName = this.dataModel.ComponentName;
-            this.componentCatalog.SelectedNumber = this.dataModel.ComponentNumber;
-        }
-
-        private void componentCatalog_SelectionDone(object sender, EventArgs e)
-        {
-            this.dataModel.ComponentName = this.componentCatalog.SelectedName;
-            this.dataModel.ComponentNumber = this.componentCatalog.SelectedNumber;
         }
     }
 }

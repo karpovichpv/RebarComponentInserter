@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using TD = Tekla.Structures.Datatype;
+using System.Runtime.CompilerServices;
 using Tekla.Structures.Dialog;
-using System.Globalization;
+using TD = Tekla.Structures.Datatype;
 
 namespace RebarComponentInserter
 {
@@ -10,72 +10,51 @@ namespace RebarComponentInserter
     /// </summary>
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        #region Fields
-        private string partname = string.Empty;
-        private string profile = string.Empty;
-        private string material = string.Empty;
-        private TD.Distance offset = new TD.Distance();
-        private string componentname = string.Empty;
-        private int componentnumber = 0;
-        private int lengthfactor = 0;
-        #endregion
-
-        #region Properties
-        [StructuresDialog("name",typeof(TD.String))]
-        public string Name
-        {
-            get { return partname; }
-            set { partname = value; OnPropertyChanged("Name"); }
-        }
-        [StructuresDialog("profile", typeof(TD.String))]
-        public string Profilename
-        {
-            get { return profile; }
-            set { profile = value; OnPropertyChanged("Profilename"); }
-        }
-        [StructuresDialog("offset", typeof(TD.Distance))]
-        public TD.Distance Offset
-        {
-            get { return offset; }
-            set { offset = value; OnPropertyChanged("Offset"); }
-        }
-        [StructuresDialog("material", typeof(TD.String))]
-        public string Material
-        {
-            get { return material; }
-            set { material = value; OnPropertyChanged("Material"); }
-        }
-        [StructuresDialog("componentname", typeof(TD.String))]
+        private string _componentName = string.Empty;
+        [StructuresDialog(AttributeNames.ComponentName, typeof(TD.String))]
         public string ComponentName
         {
-            get { return componentname; }
-            set { componentname = value; OnPropertyChanged("ComponentName"); }
-        }
-        [StructuresDialog("componentnumber", typeof(TD.Integer))]
-        public int ComponentNumber
-        {
-            get { return componentnumber; }
-            set { componentnumber = value; OnPropertyChanged("ComponentNumber"); }
-        }
-        [StructuresDialog("lengthfactor", typeof(TD.Integer))]
-        public int LengthFactor
-        {
-            get { return lengthfactor; }
-            set { lengthfactor = value; OnPropertyChanged("LengthFactor"); }
+            get { return _componentName; }
+            set { _componentName = value; OnPropertyChanged(); }
         }
 
-        #endregion
+        private string _componentAttribute = string.Empty;
+        [StructuresDialog(AttributeNames.ComponentAttribute, typeof(TD.String))]
+        public string ComponentAttribute
+        {
+            get { return _componentAttribute; }
+            set { _componentAttribute = value; OnPropertyChanged(); }
+        }
+
+        private TD.Distance _offsetFromEnd = new();
+        [StructuresDialog(AttributeNames.OffsetsFromEnd, typeof(TD.Distance))]
+        public TD.Distance OffsetFromEnd
+        {
+            get { return _offsetFromEnd; }
+            set { _offsetFromEnd = value; OnPropertyChanged(); }
+        }
+
+        private int _spacingType = 0;
+        [StructuresDialog(AttributeNames.SpacingType, typeof(TD.Integer))]
+        public int SpacingType
+        {
+            get { return _spacingType; }
+            set { _spacingType = value; OnPropertyChanged(); }
+        }
+
+        private int _classNumber = 0;
+        [StructuresDialog(AttributeNames.ClassNumber, typeof(TD.Integer))]
+        public int ClassNumber
+        {
+            get { return _classNumber; }
+            set { _classNumber = value; OnPropertyChanged(); }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string name)
+        protected void OnPropertyChanged([CallerMemberName] string name = "")
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
     }
 }
