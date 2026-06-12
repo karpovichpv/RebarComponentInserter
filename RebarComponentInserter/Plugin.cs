@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using RebarComponentInserter.Extensions;
 using Tekla.Structures;
@@ -28,6 +29,22 @@ namespace RebarComponentInserter
             _workPlaneHandler = workPlaneHandler;
             _basicTransformationPlane = workPlaneHandler.GetCurrentTransformationPlane();
             _model = model;
+
+            // Serialize all PluginData fields to log.txt near the executed dll
+            string logPath = Path.Combine(
+                Path.GetDirectoryName(this.GetType().Assembly.Location) ?? string.Empty,
+                "log.txt"
+            );
+            File.WriteAllText(
+                logPath,
+                $"ComponentName: {_data.ComponentName}{Environment.NewLine}"
+                    + $"ComponentAttribute: {_data.ComponentAttribute}{Environment.NewLine}"
+                    + $"OffsetFromEnd: {_data.OffsetFromEnd}{Environment.NewLine}"
+                    + $"SpacingType: {_data.SpacingType}{Environment.NewLine}"
+                    + $"ClassNumber: {_data.ClassNumber}{Environment.NewLine}"
+                    + $"ComponentRawWidth: {_data.ComponentRawWidth}{Environment.NewLine}"
+                    + $"ComponentRawHeight: {_data.ComponentRawHeight}{Environment.NewLine}"
+            );
         }
 
         public override List<InputDefinition> DefineInput()
