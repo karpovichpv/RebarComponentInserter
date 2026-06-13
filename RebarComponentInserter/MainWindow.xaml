@@ -8,9 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tsd="clr-namespace:Tekla.Structures.Dialog;assembly=Tekla.Structures.Dialog"
     Title="Создание и добавление каркасов в сборку панели"
-    Width="750"
+    Width="700"
     Height="550"
-    HorizontalAlignment="Stretch"
     mc:Ignorable="d">
     <d:UserControl.DataContext>
         <local:MainWindowViewModel/>
