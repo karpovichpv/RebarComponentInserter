@@ -1,5 +1,5 @@
-using RebarComponentInserter.Extensions;
 using System;
+using RebarComponentInserter.Extensions;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 
@@ -32,8 +32,7 @@ namespace RebarComponentInserter
 
             ComponentInserterData data = new()
             {
-                ComponentAttributes = "standard",
-                ComponentPointsInputType = ComponentPointsInputType.TwoPointsByOnePointInput,
+                ComponentAttributeName = "standard",
                 ComponentName = "Каркас_1",
                 ComponentNumber = -1,
                 Wall = beam,
@@ -52,15 +51,12 @@ namespace RebarComponentInserter
             Beam beam = new Beam(startPoint, endPoint)
             {
                 Profile = { ProfileString = "3000*300" }, // Rectangular profile
-                Material = { MaterialString = "Concrete_Undefined" },  // Concrete material
+                Material = { MaterialString = "Concrete_Undefined" }, // Concrete material
                 Name = "ConcreteWall",
                 Class = "1",
                 Finish = "PAINTED",
                 PartNumber = { Prefix = "W" },
-                Position = {
-                    Depth = Position.DepthEnum.FRONT,
-                    Plane = Position.PlaneEnum.MIDDLE
-                }
+                Position = { Depth = Position.DepthEnum.FRONT, Plane = Position.PlaneEnum.MIDDLE },
             };
 
             bool result = beam.Insert();

@@ -75,16 +75,18 @@ namespace RebarComponentInserter
 
                     ComponentInserterData data = new()
                     {
-                        ComponentAttributes = "standard",
-                        ComponentPointsInputType =
-                            ComponentPointsInputType.TwoPointsByOnePointInput,
-                        ComponentName = "Каркас_1",
+                        ComponentAttributeName = _data.ComponentAttribute,
+                        ComponentName = _data.ComponentName,
                         ComponentNumber = -1,
                         Wall = wall,
                         StartPoint = wall.StartPoint,
                         EndPoint = wall.EndPoint,
-                        Spacing = 200,
-                        SpacingType = SpacingType.FirstFlexibleExist,
+                        Spacing = _data.Spacing,
+                        SpacingType = (SpacingType)_data.SpacingType,
+                        RawWidthAttributeName = _data.ComponentRawWidth,
+                        RawHeightAttributeName = _data.ComponentRawHeight,
+                        OffsetFromEnd = _data.OffsetFromEnd,
+                        PartToAssemblyClass = _data.ClassNumber,
                     };
 
                     ComponentInserter.Insert(data);
@@ -121,6 +123,11 @@ namespace RebarComponentInserter
             }
 
             throw new NotImplementedException("Cannot calculate the height of the panel");
+        }
+
+        private static SpacingType ConvertSpacingType(int spacingType)
+        {
+            return (SpacingType)spacingType;
         }
     }
 }
