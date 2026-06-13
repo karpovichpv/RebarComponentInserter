@@ -84,6 +84,7 @@
                     AttributeName="{x:Static local:AttributeNames.SpacingType}"/>
                 <ComboBox
                     Width="200"
+                    HorizontalAlignment="Left"
                     SelectedIndex="{Binding Path=SpacingType, Mode=TwoWay}">
                     <TextBlock Text="Первый доборный"/>
                     <TextBlock Text="Последний доборный"/>
