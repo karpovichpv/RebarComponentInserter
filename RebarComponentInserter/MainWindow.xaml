@@ -9,7 +9,7 @@
     xmlns:tsd="clr-namespace:Tekla.Structures.Dialog;assembly=Tekla.Structures.Dialog"
     Title="Some new title"
     Width="590"
-    Height="355"
+    Height="400"
     HorizontalAlignment="Stretch"
     mc:Ignorable="d">
     <d:UserControl.DataContext>
