@@ -41,6 +41,7 @@ namespace RebarComponentInserter
                     + $"ComponentAttribute: {_data.ComponentAttribute}{Environment.NewLine}"
                     + $"OffsetFromEnd: {_data.OffsetFromEnd}{Environment.NewLine}"
                     + $"SpacingType: {_data.SpacingType}{Environment.NewLine}"
+                    + $"Spacing: {_data.Spacing}{Environment.NewLine}"
                     + $"ClassNumber: {_data.ClassNumber}{Environment.NewLine}"
                     + $"ComponentRawWidth: {_data.ComponentRawWidth}{Environment.NewLine}"
                     + $"ComponentRawHeight: {_data.ComponentRawHeight}{Environment.NewLine}"
