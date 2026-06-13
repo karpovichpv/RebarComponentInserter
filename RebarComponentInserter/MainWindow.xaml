@@ -89,7 +89,7 @@
                     <TextBlock Text="Первый доборный"/>
                     <TextBlock Text="Последний доборный"/>
                     <TextBlock Text="Первый доборный без первого каркаса"/>
-                    <TextBlock Text="Послединй доборный без последнего каркаса"/>
+                    <TextBlock Text="Последний доборный без последнего каркаса"/>
                 </ComboBox>
             </StackPanel>
 

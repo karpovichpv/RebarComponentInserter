@@ -81,7 +81,7 @@ namespace RebarComponentInserter
                         StartPoint = wall.StartPoint,
                         EndPoint = wall.EndPoint,
                         Spacing = _data.Spacing,
-                        SpacingType = (SpacingType)_data.SpacingType,
+                        SpacingType = ConvertSpacingType(),
                         RawWidthAttributeName = _data.ComponentRawWidth,
                         RawHeightAttributeName = _data.ComponentRawHeight,
                         OffsetFromEnd = _data.OffsetFromEnd,
@@ -103,6 +103,18 @@ namespace RebarComponentInserter
             }
 
             return false;
+        }
+
+        private SpacingType ConvertSpacingType()
+        {
+            return _data.SpacingType switch
+            {
+                0 => SpacingType.FirstFlexibleExist,
+                1 => SpacingType.LastFlexibleExist,
+                2 => SpacingType.FirstFlexibleExclude,
+                3 => SpacingType.LastFlexibleExclude,
+                _ => throw new NotImplementedException("Тип раскладки шага не поддерживается"),
+            };
         }
 
         private static TransformationPlane GetWallPlane(Beam wall)

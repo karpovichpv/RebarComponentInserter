@@ -10,47 +10,56 @@ namespace RebarComponentInserter
         public static void Insert(ComponentInserterData data)
         {
             double distance = data.StartPoint.GetDistance(data.EndPoint) - data.OffsetFromEnd * 2;
-            int count = (int)Math.Floor(distance / data.Spacing);
+            int count = (int)Math.Ceiling(distance / data.Spacing);
+            double flexibleSpacing = distance - data.Spacing * (count - 1);
 
-            CoordinateSystem coordinateSystem = data.Wall.GetCoordinateSystem();
+            Vector axisX = data.Wall.GetCoordinateSystem().AxisX;
+            Vector axisY = data.Wall.GetCoordinateSystem().AxisY;
 
-            // Handle SpacingType for insert point calculation
-            int startIndex = GetStartIndex(data);
-            int endIndex = GetEndIndex(data, count);
-
-            Point startPoint = data.StartPoint.Copy(coordinateSystem.AxisX, data.OffsetFromEnd);
-
-            for (int i = startIndex; i < endIndex; i++)
+            Point startPoint = data.StartPoint.Copy(axisX, data.OffsetFromEnd);
+            double currentDistance = data.Spacing;
+            for (int i = 0; i <= count; i++)
             {
-                Point insertPoint = startPoint.Copy(coordinateSystem.AxisX, data.Spacing * i);
-                InsertComponent(insertPoint, coordinateSystem.AxisY, data);
+                if (i == 0)
+                    currentDistance = 0;
+                else if (CheckIfNeedToAddFlexibleSpacing(data, count, i))
+                    currentDistance += flexibleSpacing;
+                else
+                    currentDistance += data.Spacing;
+
+                if (CheckIfCreationNeeded(data, count, i))
+                    continue;
+
+                InsertComponent(startPoint.Copy(axisX, currentDistance), axisY, data);
             }
         }
 
-        private static int GetStartIndex(ComponentInserterData data)
+        private static bool CheckIfNeedToAddFlexibleSpacing(
+            ComponentInserterData data,
+            int count,
+            int i
+        )
         {
-            return data.SpacingType switch
-            {
-                SpacingType.NotSet => 0,
-                SpacingType.FirstFlexibleExist => 0,
-                SpacingType.LastFlexibleExist => 0,
-                SpacingType.FirstFlexibleExclude => 1,
-                SpacingType.LastFlexibleExclude => 0,
-                _ => 0,
-            };
+            bool isFirstFlexible =
+                i == 1
+                && (
+                    data.SpacingType == SpacingType.FirstFlexibleExist
+                    || data.SpacingType == SpacingType.FirstFlexibleExclude
+                );
+            bool isLastFlexible =
+                i == count
+                && (
+                    data.SpacingType == SpacingType.LastFlexibleExclude
+                    || data.SpacingType == SpacingType.LastFlexibleExist
+                );
+            return isFirstFlexible || isLastFlexible;
         }
 
-        private static int GetEndIndex(ComponentInserterData data, int count)
+        private static bool CheckIfCreationNeeded(ComponentInserterData data, int count, int i)
         {
-            return data.SpacingType switch
-            {
-                SpacingType.NotSet => count,
-                SpacingType.FirstFlexibleExist => count,
-                SpacingType.LastFlexibleExist => count,
-                SpacingType.FirstFlexibleExclude => count,
-                SpacingType.LastFlexibleExclude => count - 1,
-                _ => count,
-            };
+            bool isFirstExcluded = data.SpacingType == SpacingType.FirstFlexibleExclude && i == 0;
+            bool isLastExcluded = data.SpacingType == SpacingType.LastFlexibleExclude && i == count;
+            return isFirstExcluded || isLastExcluded;
         }
 
         private static void InsertComponent(
