@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using RebarComponentInserter.Extensions;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
@@ -9,6 +10,41 @@ namespace RebarComponentInserter
     {
         public static void Insert(ComponentInserterData data)
         {
+            List<CustomPart> components = CreateComponents(data);
+            List<Part> targetParts = GetTargetPartsForAttachingThemToAssembly(data, components);
+
+            Assembly mainAssembly = data.Wall.GetAssembly();
+            foreach (Part part in targetParts)
+            {
+                mainAssembly.Remove(part);
+                mainAssembly.Modify();
+                mainAssembly.Add(part);
+                mainAssembly.Modify();
+            }
+        }
+
+        private static List<Part> GetTargetPartsForAttachingThemToAssembly(
+            ComponentInserterData data,
+            List<CustomPart> components
+        )
+        {
+            List<Part> targetParts = [];
+            foreach (CustomPart customPart in components)
+            {
+                ModelObjectEnumerator enumerator = customPart.GetChildren();
+                foreach (ModelObject modelObject in enumerator)
+                {
+                    if (modelObject is Part part && part.Class == $"{data.PartToAssemblyClass}")
+                        targetParts.Add(part);
+                }
+            }
+
+            return targetParts;
+        }
+
+        private static List<CustomPart> CreateComponents(ComponentInserterData data)
+        {
+            List<CustomPart> insertedComponents = [];
             double distance = data.StartPoint.GetDistance(data.EndPoint) - data.OffsetFromEnd * 2;
             int count = (int)Math.Ceiling(distance / data.Spacing);
             double flexibleSpacing = distance - data.Spacing * (count - 1);
@@ -30,8 +66,11 @@ namespace RebarComponentInserter
                 if (CheckIfCreationNeeded(data, count, i))
                     continue;
 
-                InsertComponent(startPoint.Copy(axisX, currentDistance), axisY, data);
+                insertedComponents.Add(
+                    InsertComponent(startPoint.Copy(axisX, currentDistance), axisY, data)
+                );
             }
+            return insertedComponents;
         }
 
         private static bool CheckIfNeedToAddFlexibleSpacing(
@@ -62,7 +101,7 @@ namespace RebarComponentInserter
             return isFirstExcluded || isLastExcluded;
         }
 
-        private static void InsertComponent(
+        private static CustomPart InsertComponent(
             Point insertPoint,
             Vector direction,
             ComponentInserterData data
@@ -89,6 +128,8 @@ namespace RebarComponentInserter
             customPart.SetAttribute(data.RawHeightAttributeName, wallHeight);
 
             customPart.Modify();
+
+            return customPart;
         }
 
         public static double GetReportProperty(Beam wall, string propertyName)
