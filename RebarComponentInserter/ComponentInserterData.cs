@@ -41,11 +41,6 @@ namespace RebarComponentInserter
         public string ComponentAttributeName { get; set; }
 
         /// <summary>
-        /// Количество каркасов по длине
-        /// </summary>
-        public int ComponentNumber { get; set; }
-
-        /// <summary>
         /// Шаг каркасов
         /// </summary>
         public double Spacing { get; set; }

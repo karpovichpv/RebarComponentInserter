@@ -34,7 +34,6 @@ namespace RebarComponentInserter
             {
                 ComponentAttributeName = "standard",
                 ComponentName = "Каркас_1",
-                ComponentNumber = -1,
                 Wall = beam,
                 StartPoint = startPoint,
                 EndPoint = endPoint,

@@ -77,7 +77,6 @@ namespace RebarComponentInserter
                     {
                         ComponentAttributeName = _data.ComponentAttribute,
                         ComponentName = _data.ComponentName,
-                        ComponentNumber = -1,
                         Wall = wall,
                         StartPoint = wall.StartPoint,
                         EndPoint = wall.EndPoint,
