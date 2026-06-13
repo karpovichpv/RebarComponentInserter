@@ -7,8 +7,8 @@
     xmlns:local="clr-namespace:RebarComponentInserter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tsd="clr-namespace:Tekla.Structures.Dialog;assembly=Tekla.Structures.Dialog"
-    Title="Some new title"
-    Width="650"
+    Title="Создание и добавление каркасов в сборку панели"
+    Width="750"
     Height="550"
     HorizontalAlignment="Stretch"
     mc:Ignorable="d">

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using RebarComponentInserter.Extensions;
+using Tekla.Structures.Catalogs;
+using Tekla.Structures.Dialog.UIControls;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 
@@ -113,6 +116,7 @@ namespace RebarComponentInserter
             CustomPart customPart = new() { Name = data.ComponentName, Number = -1 };
 
             customPart.SetInputPositions(insertPoint, insertPoint.Copy(direction, 100));
+            customPart.LoadAttributesFromFile(data.ComponentAttributeName);
             customPart.Insert();
             customPart.Position = new()
             {

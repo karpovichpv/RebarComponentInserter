@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using RebarComponentInserter.Extensions;
 using Tekla.Structures;
+using Tekla.Structures.Catalogs;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 using Tekla.Structures.Model.UI;
@@ -11,7 +12,7 @@ using Tekla.Structures.Plugins;
 
 namespace RebarComponentInserter
 {
-    [Plugin("RebarComponentInserter")]
+    [Plugin("pk_RebarComponentInserter")]
     [PluginUserInterface("RebarComponentInserter.MainWindow")]
     public class RebarComponentInserterPlugin : PluginBase
     {
@@ -19,6 +20,7 @@ namespace RebarComponentInserter
         private readonly WorkPlaneHandler _workPlaneHandler;
         private readonly TransformationPlane _basicTransformationPlane;
         private PluginData _data;
+        private System.Reflection.Assembly _pluginAssembly => GetType().Assembly;
 
         public RebarComponentInserterPlugin(PluginData data)
         {
@@ -29,23 +31,6 @@ namespace RebarComponentInserter
             _workPlaneHandler = workPlaneHandler;
             _basicTransformationPlane = workPlaneHandler.GetCurrentTransformationPlane();
             _model = model;
-
-            // Serialize all PluginData fields to log.txt near the executed dll
-            string logPath = Path.Combine(
-                Path.GetDirectoryName(this.GetType().Assembly.Location) ?? string.Empty,
-                "log.txt"
-            );
-            File.WriteAllText(
-                logPath,
-                $"ComponentName: {_data.ComponentName}{Environment.NewLine}"
-                    + $"ComponentAttribute: {_data.ComponentAttribute}{Environment.NewLine}"
-                    + $"OffsetFromEnd: {_data.OffsetFromEnd}{Environment.NewLine}"
-                    + $"SpacingType: {_data.SpacingType}{Environment.NewLine}"
-                    + $"Spacing: {_data.Spacing}{Environment.NewLine}"
-                    + $"ClassNumber: {_data.ClassNumber}{Environment.NewLine}"
-                    + $"ComponentRawWidth: {_data.ComponentRawWidth}{Environment.NewLine}"
-                    + $"ComponentRawHeight: {_data.ComponentRawHeight}{Environment.NewLine}"
-            );
         }
 
         public override List<InputDefinition> DefineInput()
@@ -62,6 +47,8 @@ namespace RebarComponentInserter
         {
             try
             {
+                CheckIfCanInsertComponents();
+
                 if (input.Count == 0)
                     return false;
 
@@ -96,7 +83,13 @@ namespace RebarComponentInserter
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show($"Возникла ошибка выполнения плагина. Message: {ex.Message}");
+                string logPath = Path.Combine(
+                    Path.GetDirectoryName(_pluginAssembly.Location) ?? string.Empty,
+                    "log.txt"
+                );
+
+                File.WriteAllText(logPath, $"{ex.ToString()}");
             }
             finally
             {
@@ -104,6 +97,26 @@ namespace RebarComponentInserter
             }
 
             return false;
+        }
+
+        private void CheckIfCanInsertComponents()
+        {
+            CatalogHandler catalogHandler = new CatalogHandler();
+            ComponentItemEnumerator enumerator = catalogHandler.GetComponentItems();
+            bool ifExist = false;
+            while (enumerator.MoveNext())
+            {
+                ComponentItem item = enumerator.Current;
+                if (item.Number == -1 && item.Name == _data.ComponentName)
+                {
+                    ifExist = true;
+                    break;
+                }
+            }
+            if (ifExist == false)
+                throw new Exception(
+                    $"В каталоге компонентов не обнаружено компонента детали с именем {_data.ComponentName}"
+                );
         }
 
         private SpacingType ConvertSpacingType()
