@@ -9,5 +9,6 @@
         public const string ClassNumber = "ClassNumber";
         public const string ComponentRawWidth = "ComponentRawWidth";
         public const string ComponentRawHeight = "ComponentRawHeight";
+        public const string Spacing = "Spacing";
     }
 }

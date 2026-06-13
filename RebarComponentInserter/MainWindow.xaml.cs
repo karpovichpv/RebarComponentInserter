@@ -14,6 +14,7 @@ namespace RebarComponentInserter
         public MainWindow(MainWindowViewModel DataModel)
         {
             InitializeComponent();
+            UseDefaultStyle = true;
             dataModel = DataModel;
         }
 

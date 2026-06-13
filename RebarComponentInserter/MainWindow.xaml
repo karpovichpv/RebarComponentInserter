@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:RebarComponentInserter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tsd="clr-namespace:Tekla.Structures.Dialog;assembly=Tekla.Structures.Dialog"
-    Title="{tsd:Loc albl_Test_plugin}"
+    Title="Some new title"
     Width="590"
     Height="355"
     HorizontalAlignment="Stretch"
@@ -16,20 +16,6 @@
         <local:MainWindowViewModel />
     </d:UserControl.DataContext>
 
-    <!-- Used if Fusion is available-->
-    <!--<Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                -->
-    <!--
-                    This resource URL found in FusionExample/Properties/DesignTimeResources.xaml on github
-                    It imports the TS style used at runtime, so it's useful to better be able to see the end results.
-                -->
-    <!--
-                <ResourceDictionary Source="/Fusion;component/Themes/Generic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="48" />
@@ -50,6 +36,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -58,57 +45,40 @@
 
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <Label
-                    x:Name="partNameLabel"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    Width="250"
                     Content="Имя пользовательского компонента" />
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     AttributeName="{x:Static local:AttributeNames.ComponentName}" />
                 <TextBox
-                    x:Name="partNameTextBox"
-                    Width="120"
-                    Height="23"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Text="{Binding ComponentName, Mode=TwoWay}"
-                    TextWrapping="Wrap" />
+                    Width="200"
+                    Text="{Binding ComponentName, Mode=TwoWay}" />
             </StackPanel>
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Label
-                    x:Name="attributeNameLabel"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    Width="250"
                     Content="Имя атрибута" />
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     AttributeName="{x:Static local:AttributeNames.ComponentAttribute}" />
                 <TextBox
-                    x:Name="attributeNameTextBox"
-                    Width="120"
-                    Height="23"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Text="{Binding ComponentAttribute, Mode=TwoWay}"
-                    TextWrapping="Wrap" />
+                    Width="200"
+                    Text="{Binding ComponentAttribute, Mode=TwoWay}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <Label
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="Тип шага"
-                    RenderTransformOrigin="0.754,-0.24" />
+                    Width="250"
+                    Content="Тип шага" />
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     AttributeName="{x:Static local:AttributeNames.SpacingType}" />
                 <ComboBox
-                    Width="90"
-                    VerticalAlignment="Center"
+                    Width="200"
                     SelectedIndex="{Binding Path=SpacingType, Mode=TwoWay}">
                     <TextBlock Text="1" />
                     <TextBlock Text="2" />
@@ -117,79 +87,69 @@
                 </ComboBox>
             </StackPanel>
 
-            <StackPanel Grid.Row="5" Orientation="Horizontal">
+            <StackPanel Grid.Row="3" Orientation="Horizontal">
                 <Label
+                    Width="250"
+                    Content="Шаг каркасов" />
+                <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Content="Тип шага"
-                    RenderTransformOrigin="0.754,-0.24" />
+                    AttributeName="{x:Static local:AttributeNames.Spacing}" />
+                <TextBox
+                    Width="200"
+                    Text="{Binding Spacing, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Orientation="Horizontal">
+                <Label
+                    Width="250"
+                    Content="Класс фиктивной детали" />
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     AttributeName="{x:Static local:AttributeNames.ClassNumber}" />
                 <TextBox
-                    Width="90"
-                    VerticalAlignment="Center"
-                    Text="{Binding Path=ClassNumber, Mode=TwoWay}"/>
+                    Width="200"
+                    Text="{Binding Path=ClassNumber, Mode=TwoWay}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <StackPanel Grid.Row="5" Orientation="Horizontal">
                 <Label
-                    x:Name="label_Copy1"
-                    Height="30"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    Width="250"
                     Content="Отступ каркаса от концов" />
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     AttributeName="{x:Static local:AttributeNames.OffsetsFromEnd}" />
                 <TextBox
-                    x:Name="textBox_Copy1"
-                    Width="120"
-                    Height="23"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Text="{Binding OffsetFromEnd, Mode=TwoWay}"
-                    TextWrapping="Wrap" />
+                    Width="200"
+                    Text="{Binding OffsetFromEnd, Mode=TwoWay}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <StackPanel Grid.Row="6" Orientation="Horizontal">
                 <Label
-                    Height="30"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    Width="250"
                     Content="Передать ширину стены в атрибут" />
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     AttributeName="{x:Static local:AttributeNames.ComponentRawWidth}" />
                 <TextBox
-                    Width="120"
-                    Height="23"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Text="{Binding ComponentRawWidth, Mode=TwoWay}"
-                    TextWrapping="Wrap" />
+                    Width="200"
+                    Text="{Binding ComponentRawWidth, Mode=TwoWay}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="5" Orientation="Horizontal">
+            <StackPanel Grid.Row="7" Orientation="Horizontal">
                 <Label
-                    Height="30"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    Width="250"
                     Content="Передать высоту стены в атрибут" />
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     AttributeName="{x:Static local:AttributeNames.ComponentRawHeight}" />
                 <TextBox
-                    Width="120"
-                    Height="23"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Text="{Binding ComponentRawHeight, Mode=TwoWay}"
-                    TextWrapping="Wrap" />
+                    Width="200"
+                    Text="{Binding ComponentRawHeight, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
         <UIControls:WpfOkApplyModifyGetOnOffCancel

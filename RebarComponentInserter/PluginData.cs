@@ -16,6 +16,9 @@ namespace RebarComponentInserter
         [StructuresField(AttributeNames.SpacingType)]
         public int SpacingType;
 
+        [StructuresField(AttributeNames.Spacing)]
+        public double Spacing;
+
         [StructuresField(AttributeNames.ClassNumber)]
         public int ClassNumber;
 

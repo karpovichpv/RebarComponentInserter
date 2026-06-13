@@ -88,6 +88,19 @@ namespace RebarComponentInserter
             }
         }
 
+        private TD.Distance _spacing = new();
+
+        [StructuresDialog(AttributeNames.Spacing, typeof(TD.Distance))]
+        public TD.Distance Spacing
+        {
+            get { return _spacing; }
+            set
+            {
+                _spacing = value;
+                OnPropertyChanged();
+            }
+        }
+
         private int _classNumber = 0;
 
         [StructuresDialog(AttributeNames.ClassNumber, typeof(TD.Integer))]
