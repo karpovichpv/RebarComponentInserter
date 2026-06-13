@@ -71,5 +71,10 @@ namespace RebarComponentInserter
         /// Класс детали, который будет включен в сборку панели
         /// </summary>
         public int PartToAssemblyClass { get; internal set; }
+
+        /// <summary>
+        /// Добавлять деталь из каркаса в сборку панели
+        /// </summary>
+        public bool AddPartToAssembly { get; internal set; }
     }
 }

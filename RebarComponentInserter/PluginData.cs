@@ -22,6 +22,9 @@ namespace RebarComponentInserter
         [StructuresField(AttributeNames.ClassNumber)]
         public int ClassNumber;
 
+        [StructuresField(AttributeNames.AddPartToAssembly)]
+        public int AddPartToAssembly;
+
         [StructuresField(AttributeNames.ComponentRawWidth)]
         public string ComponentRawWidth;
 

@@ -10,5 +10,6 @@
         public const string ComponentRawWidth = "ComponentRawWidth";
         public const string ComponentRawHeight = "ComponentRawHeight";
         public const string Spacing = "Spacing";
+        public const string AddPartToAssembly = "AddPartToAssembly";
     }
 }

@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tsd="clr-namespace:Tekla.Structures.Dialog;assembly=Tekla.Structures.Dialog"
     Title="Some new title"
-    Width="590"
-    Height="400"
+    Width="650"
+    Height="550"
     HorizontalAlignment="Stretch"
     mc:Ignorable="d">
     <d:UserControl.DataContext>
@@ -31,6 +31,7 @@
             VerticalAlignment="Top"/>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -125,6 +126,24 @@
                         Orientation="Horizontal">
                 <Label
                     Width="250"
+                    Content="Добавлять фиктивную деталь в сборку панели"/>
+                <UIControls:WpfFilterCheckBox
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    AttributeName="{x:Static local:AttributeNames.AddPartToAssembly}"/>
+                <ComboBox
+                    Width="200"
+                    HorizontalAlignment="Left"
+                    SelectedIndex="{Binding Path=AddPartToAssembly, Mode=TwoWay}">
+                    <TextBlock Text="Нет"/>
+                    <TextBlock Text="Да"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="6"
+                        Orientation="Horizontal">
+                <Label
+                    Width="250"
                     Content="Отступ каркаса от концов"/>
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
@@ -135,7 +154,7 @@
                     Text="{Binding OffsetFromEnd, Mode=TwoWay}"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="6"
+            <StackPanel Grid.Row="7"
                         Orientation="Horizontal">
                 <Label
                     Width="250"
@@ -149,7 +168,7 @@
                     Text="{Binding ComponentRawWidth, Mode=TwoWay}"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="7"
+            <StackPanel Grid.Row="8"
                         Orientation="Horizontal">
                 <Label
                     Width="250"

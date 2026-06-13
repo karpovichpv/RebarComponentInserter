@@ -114,6 +114,19 @@ namespace RebarComponentInserter
             }
         }
 
+        private int _addPartToAssembly = 0;
+
+        [StructuresDialog(AttributeNames.AddPartToAssembly, typeof(TD.Integer))]
+        public int AddPartToAssembly
+        {
+            get { return _addPartToAssembly; }
+            set
+            {
+                _addPartToAssembly = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string name = "")

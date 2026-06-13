@@ -86,6 +86,7 @@ namespace RebarComponentInserter
                         RawHeightAttributeName = _data.ComponentRawHeight,
                         OffsetFromEnd = _data.OffsetFromEnd,
                         PartToAssemblyClass = _data.ClassNumber,
+                        AddPartToAssembly = _data.AddPartToAssembly == 1,
                     };
 
                     ComponentInserter.Insert(data);

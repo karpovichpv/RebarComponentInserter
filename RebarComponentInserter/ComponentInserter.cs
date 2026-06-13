@@ -18,8 +18,11 @@ namespace RebarComponentInserter
             {
                 mainAssembly.Remove(part);
                 mainAssembly.Modify();
-                mainAssembly.Add(part);
-                mainAssembly.Modify();
+                if (data.AddPartToAssembly)
+                {
+                    mainAssembly.Add(part);
+                    mainAssembly.Modify();
+                }
             }
         }
 
