@@ -9,7 +9,7 @@ namespace RebarComponentInserter
     {
         public static void Insert(ComponentInserterData data)
         {
-            double distance = data.StartPoint.GetDistance(data.EndPoint);
+            double distance = data.StartPoint.GetDistance(data.EndPoint) - data.OffsetFromEnd * 2;
             int count = (int)Math.Floor(distance / data.Spacing);
 
             CoordinateSystem coordinateSystem = data.Wall.GetCoordinateSystem();
@@ -18,9 +18,11 @@ namespace RebarComponentInserter
             int startIndex = GetStartIndex(data);
             int endIndex = GetEndIndex(data, count);
 
+            Point startPoint = data.StartPoint.Copy(coordinateSystem.AxisX, data.OffsetFromEnd);
+
             for (int i = startIndex; i < endIndex; i++)
             {
-                Point insertPoint = data.StartPoint.Copy(coordinateSystem.AxisX, data.Spacing * i);
+                Point insertPoint = startPoint.Copy(coordinateSystem.AxisX, data.Spacing * i);
                 InsertComponent(insertPoint, coordinateSystem.AxisY, data);
             }
         }
