@@ -90,6 +90,7 @@
                     <TextBlock Text="Последний доборный"/>
                     <TextBlock Text="Первый доборный без первого каркаса"/>
                     <TextBlock Text="Последний доборный без последнего каркаса"/>
+                    <TextBlock Text="Список шагов"/>
                 </ComboBox>
             </StackPanel>
 

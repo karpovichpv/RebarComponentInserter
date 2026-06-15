@@ -5,10 +5,12 @@ using System.IO;
 using System.Windows;
 using Tekla.Structures;
 using Tekla.Structures.Catalogs;
+using Tekla.Structures.Datatype;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 using Tekla.Structures.Model.UI;
 using Tekla.Structures.Plugins;
+using Distance = Tekla.Structures.Datatype.Distance;
 
 namespace RebarComponentInserter
 {
@@ -19,8 +21,9 @@ namespace RebarComponentInserter
         private readonly Model _model;
         private readonly WorkPlaneHandler _workPlaneHandler;
         private readonly TransformationPlane _basicTransformationPlane;
-        private PluginData _data;
-        private System.Reflection.Assembly _pluginAssembly => GetType().Assembly;
+        private readonly PluginData _data;
+
+        private System.Reflection.Assembly PluginAssembly => GetType().Assembly;
 
         public RebarComponentInserterPlugin(PluginData data)
         {
@@ -67,7 +70,7 @@ namespace RebarComponentInserter
                         Wall = wall,
                         StartPoint = wall.StartPoint,
                         EndPoint = wall.EndPoint,
-                        Spacing = Convert.ToDouble(_data.Spacing),
+                        Spacing = ConvertToDistanceList(),
                         SpacingType = ConvertSpacingType(),
                         RawWidthAttributeName = _data.ComponentRawWidth,
                         RawHeightAttributeName = _data.ComponentRawHeight,
@@ -85,7 +88,7 @@ namespace RebarComponentInserter
             {
                 MessageBox.Show($"Возникла ошибка выполнения плагина. Message: {ex.Message}");
                 string logPath = Path.Combine(
-                    Path.GetDirectoryName(_pluginAssembly.Location) ?? string.Empty,
+                    Path.GetDirectoryName(PluginAssembly.Location) ?? string.Empty,
                     "log.txt"
                 );
 
@@ -99,9 +102,11 @@ namespace RebarComponentInserter
             return false;
         }
 
+        private Distance[] ConvertToDistanceList() => [.. DistanceList.Parse(_data.Spacing)];
+
         private void CheckIfCanInsertComponents()
         {
-            CatalogHandler catalogHandler = new CatalogHandler();
+            CatalogHandler catalogHandler = new();
             ComponentItemEnumerator enumerator = catalogHandler.GetComponentItems();
             bool ifExist = false;
             while (enumerator.MoveNext())
@@ -127,6 +132,7 @@ namespace RebarComponentInserter
                 1 => SpacingType.LastFlexibleExist,
                 2 => SpacingType.FirstFlexibleExclude,
                 3 => SpacingType.LastFlexibleExclude,
+                4 => SpacingType.DistanceList,
                 _ => throw new NotImplementedException("Тип раскладки шага не поддерживается"),
             };
         }

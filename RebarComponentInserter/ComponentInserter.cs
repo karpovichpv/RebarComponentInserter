@@ -1,9 +1,6 @@
-﻿using System;
+﻿using RebarComponentInserter.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
-using RebarComponentInserter.Extensions;
-using Tekla.Structures.Catalogs;
-using Tekla.Structures.Dialog.UIControls;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 
@@ -37,8 +34,7 @@ namespace RebarComponentInserter
             List<Part> targetParts = [];
             foreach (CustomPart customPart in components)
             {
-                ModelObjectEnumerator enumerator = customPart.GetChildren();
-                foreach (ModelObject modelObject in enumerator)
+                foreach (ModelObject modelObject in customPart.GetChildren())
                 {
                     if (modelObject is Part part && part.Class == $"{data.PartToAssemblyClass}")
                         targetParts.Add(part);

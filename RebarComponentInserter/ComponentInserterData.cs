@@ -1,6 +1,6 @@
 ﻿using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
-using static Tekla.Structures.Model.RebarSpacing;
+using Distance = Tekla.Structures.Datatype.Distance;
 
 namespace RebarComponentInserter
 {
@@ -30,6 +30,11 @@ namespace RebarComponentInserter
         /// First flexible spacing and last component exclude
         /// </summary>
         LastFlexibleExclude,
+
+        /// <summary>
+        /// Spacing list 
+        /// </summary>
+        DistanceList,
     }
 
     internal class ComponentInserterData
@@ -41,9 +46,9 @@ namespace RebarComponentInserter
         public string ComponentAttributeName { get; set; }
 
         /// <summary>
-        /// Шаг каркасов
+        /// Список шагов каркаса, в которых будут вставлены компоненты
         /// </summary>
-        public double Spacing { get; set; }
+        public Distance[] Spacing { get; set; }
 
         /// <summary>
         /// Тип шага каркаса
