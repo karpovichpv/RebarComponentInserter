@@ -1,8 +1,8 @@
+using RebarComponentInserter.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using RebarComponentInserter.Extensions;
 using Tekla.Structures;
 using Tekla.Structures.Catalogs;
 using Tekla.Structures.Geometry3d;
@@ -67,7 +67,7 @@ namespace RebarComponentInserter
                         Wall = wall,
                         StartPoint = wall.StartPoint,
                         EndPoint = wall.EndPoint,
-                        Spacing = _data.Spacing,
+                        Spacing = Convert.ToDouble(_data.Spacing),
                         SpacingType = ConvertSpacingType(),
                         RawWidthAttributeName = _data.ComponentRawWidth,
                         RawHeightAttributeName = _data.ComponentRawHeight,
