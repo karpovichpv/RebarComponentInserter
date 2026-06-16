@@ -31,7 +31,6 @@ namespace RebarComponentInserter
         [StructuresField(AttributeNames.ComponentRawHeight)]
         public string ComponentRawHeight;
 
-
         [StructuresField(AttributeNames.UDAStringName1)]
         public string UDAStringName1;
         [StructuresField(AttributeNames.UDAStringValue1)]
