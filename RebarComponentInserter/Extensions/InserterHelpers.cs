@@ -1,11 +1,10 @@
-﻿using RebarComponentInserter.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Tekla.Structures.Datatype;
 using Tekla.Structures.Geometry3d;
 using Distance = Tekla.Structures.Datatype.Distance;
 
-namespace RebarComponentInserter
+namespace RebarComponentInserter.Extensions
 {
     internal static class InserterHelpers
     {
