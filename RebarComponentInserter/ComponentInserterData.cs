@@ -48,7 +48,7 @@ namespace RebarComponentInserter
         /// <summary>
         /// Список шагов каркаса, в которых будут вставлены компоненты
         /// </summary>
-        public Distance[] Spacing { get; set; }
+        public Distance[] Spacings { get; set; }
 
         /// <summary>
         /// Тип шага каркаса

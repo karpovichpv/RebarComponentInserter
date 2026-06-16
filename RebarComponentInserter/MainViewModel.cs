@@ -10,7 +10,7 @@ namespace RebarComponentInserter
     /// </summary>
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string _componentName = string.Empty;
+        private string _componentName = "Каркас_1";
 
         [StructuresDialog(AttributeNames.ComponentName, typeof(TD.String))]
         public string ComponentName
@@ -23,7 +23,7 @@ namespace RebarComponentInserter
             }
         }
 
-        private string _componentAttribute = string.Empty;
+        private string _componentAttribute = "standard";
 
         [StructuresDialog(AttributeNames.ComponentAttribute, typeof(TD.String))]
         public string ComponentAttribute
@@ -36,7 +36,7 @@ namespace RebarComponentInserter
             }
         }
 
-        private string _componentRawWidth = string.Empty;
+        private string _componentRawWidth = "PanelWidth";
 
         [StructuresDialog(AttributeNames.ComponentRawWidth, typeof(TD.String))]
         public string ComponentRawWidth
@@ -49,7 +49,7 @@ namespace RebarComponentInserter
             }
         }
 
-        private string _componentRawHeight = string.Empty;
+        private string _componentRawHeight = "PanelHeight";
 
         [StructuresDialog(AttributeNames.ComponentRawHeight, typeof(TD.String))]
         public string ComponentRawHeight
@@ -62,7 +62,7 @@ namespace RebarComponentInserter
             }
         }
 
-        private TD.Distance _offsetFromEnd = new();
+        private TD.Distance _offsetFromEnd = new(50d);
 
         [StructuresDialog(AttributeNames.OffsetsFromEnd, typeof(TD.Distance))]
         public TD.Distance OffsetFromEnd
@@ -88,15 +88,15 @@ namespace RebarComponentInserter
             }
         }
 
-        private TD.String _spacing = new();
+        private TD.String _spacings = new("400");
 
-        [StructuresDialog(AttributeNames.Spacing, typeof(TD.String))]
-        public TD.String Spacing
+        [StructuresDialog(AttributeNames.Spacings, typeof(TD.String))]
+        public TD.String Spacings
         {
-            get { return _spacing; }
+            get { return _spacings; }
             set
             {
-                _spacing = value;
+                _spacings = value;
                 OnPropertyChanged();
             }
         }

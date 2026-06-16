@@ -10,6 +10,8 @@
     Title="Создание и добавление каркасов в сборку панели"
     Width="700"
     Height="550"
+    MinHeight="450"
+    MinWidth="600"
     mc:Ignorable="d">
     <d:UserControl.DataContext>
         <local:MainWindowViewModel/>
@@ -102,10 +104,10 @@
                 <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    AttributeName="{x:Static local:AttributeNames.Spacing}"/>
+                    AttributeName="{x:Static local:AttributeNames.Spacings}"/>
                 <TextBox
                     Width="200"
-                    Text="{Binding Spacing, Mode=TwoWay}"/>
+                    Text="{Binding Spacings, Mode=TwoWay}"/>
             </StackPanel>
 
             <StackPanel Grid.Row="4"

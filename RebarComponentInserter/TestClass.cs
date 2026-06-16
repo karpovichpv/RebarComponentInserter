@@ -1,5 +1,6 @@
-using System;
 using RebarComponentInserter.Extensions;
+using System;
+using Tekla.Structures.Datatype;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 
@@ -37,7 +38,7 @@ namespace RebarComponentInserter
                 Wall = beam,
                 StartPoint = startPoint,
                 EndPoint = endPoint,
-                Spacing = 200,
+                Spacings = [.. DistanceList.Parse("500")],
                 SpacingType = spacingType,
             };
 

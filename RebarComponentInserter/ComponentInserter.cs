@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
+using Distance = Tekla.Structures.Datatype.Distance;
 
 namespace RebarComponentInserter
 {
@@ -47,60 +48,29 @@ namespace RebarComponentInserter
         private static List<CustomPart> CreateComponents(ComponentInserterData data)
         {
             List<CustomPart> insertedComponents = [];
-            double distance = data.StartPoint.GetDistance(data.EndPoint) - data.OffsetFromEnd * 2;
-            int count = (int)Math.Ceiling(distance / data.Spacing);
-            double flexibleSpacing = distance - data.Spacing * (count - 1);
 
             Vector axisX = data.Wall.GetCoordinateSystem().AxisX;
             Vector axisY = data.Wall.GetCoordinateSystem().AxisY;
 
             Point startPoint = data.StartPoint.Copy(axisX, data.OffsetFromEnd);
-            double currentDistance = data.Spacing;
-            for (int i = 0; i <= count; i++)
+            double currentDistance = 0;
+            int totalCount = data.Spacings.Length;
+            for (int i = 0; i <= totalCount; i++)
             {
-                if (i == 0)
-                    currentDistance = 0;
-                else if (CheckIfNeedToAddFlexibleSpacing(data, count, i))
-                    currentDistance += flexibleSpacing;
-                else
-                    currentDistance += data.Spacing;
+                if (InserterHelpers.CheckIfCreationNeeded(data.SpacingType, totalCount, i))
+                {
+                    insertedComponents.Add(
+                        InsertComponent(startPoint.Copy(axisX, currentDistance), axisY, data));
+                }
 
-                if (CheckIfCreationNeeded(data, count, i))
-                    continue;
-
-                insertedComponents.Add(
-                    InsertComponent(startPoint.Copy(axisX, currentDistance), axisY, data)
-                );
+                if (i < totalCount)
+                {
+                    Distance spacing = data.Spacings[i];
+                    currentDistance += spacing.Value;
+                }
             }
+
             return insertedComponents;
-        }
-
-        private static bool CheckIfNeedToAddFlexibleSpacing(
-            ComponentInserterData data,
-            int count,
-            int i
-        )
-        {
-            bool isFirstFlexible =
-                i == 1
-                && (
-                    data.SpacingType == SpacingType.FirstFlexibleExist
-                    || data.SpacingType == SpacingType.FirstFlexibleExclude
-                );
-            bool isLastFlexible =
-                i == count
-                && (
-                    data.SpacingType == SpacingType.LastFlexibleExclude
-                    || data.SpacingType == SpacingType.LastFlexibleExist
-                );
-            return isFirstFlexible || isLastFlexible;
-        }
-
-        private static bool CheckIfCreationNeeded(ComponentInserterData data, int count, int i)
-        {
-            bool isFirstExcluded = data.SpacingType == SpacingType.FirstFlexibleExclude && i == 0;
-            bool isLastExcluded = data.SpacingType == SpacingType.LastFlexibleExclude && i == count;
-            return isFirstExcluded || isLastExcluded;
         }
 
         private static CustomPart InsertComponent(
@@ -125,10 +95,12 @@ namespace RebarComponentInserter
             };
 
             double wallWidth = GetReportProperty(data.Wall, "WIDTH");
-            double wallHeight = GetReportProperty(data.Wall, "HEIGHT");
+            if (string.IsNullOrEmpty(data.RawWidthAttributeName))
+                customPart.SetAttribute(data.RawWidthAttributeName, wallWidth);
 
-            customPart.SetAttribute(data.RawWidthAttributeName, wallWidth);
-            customPart.SetAttribute(data.RawHeightAttributeName, wallHeight);
+            double wallHeight = GetReportProperty(data.Wall, "HEIGHT");
+            if (string.IsNullOrEmpty(data.RawHeightAttributeName))
+                customPart.SetAttribute(data.RawHeightAttributeName, wallHeight);
 
             customPart.Modify();
 

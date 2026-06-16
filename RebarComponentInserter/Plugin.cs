@@ -5,12 +5,10 @@ using System.IO;
 using System.Windows;
 using Tekla.Structures;
 using Tekla.Structures.Catalogs;
-using Tekla.Structures.Datatype;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 using Tekla.Structures.Model.UI;
 using Tekla.Structures.Plugins;
-using Distance = Tekla.Structures.Datatype.Distance;
 
 namespace RebarComponentInserter
 {
@@ -63,6 +61,7 @@ namespace RebarComponentInserter
                     var wallPlane = GetWallPlane(wall);
                     _workPlaneHandler.SetCurrentTransformationPlane(wallPlane);
 
+                    SpacingType spacingType = InserterHelpers.ConvertSpacingType(_data.SpacingType);
                     ComponentInserterData data = new()
                     {
                         ComponentAttributeName = _data.ComponentAttribute,
@@ -70,8 +69,8 @@ namespace RebarComponentInserter
                         Wall = wall,
                         StartPoint = wall.StartPoint,
                         EndPoint = wall.EndPoint,
-                        Spacing = ConvertToDistanceList(),
-                        SpacingType = ConvertSpacingType(),
+                        Spacings = InserterHelpers.ConvertToDistanceList(_data, wall.StartPoint, wall.EndPoint),
+                        SpacingType = spacingType,
                         RawWidthAttributeName = _data.ComponentRawWidth,
                         RawHeightAttributeName = _data.ComponentRawHeight,
                         OffsetFromEnd = _data.OffsetFromEnd,
@@ -86,13 +85,13 @@ namespace RebarComponentInserter
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Возникла ошибка выполнения плагина. Message: {ex.Message}");
+                MessageBox.Show($"Возникла ошибка выполнения плагина! \r\n Message: {ex.Message}");
                 string logPath = Path.Combine(
                     Path.GetDirectoryName(PluginAssembly.Location) ?? string.Empty,
                     "log.txt"
                 );
 
-                File.WriteAllText(logPath, $"{ex.ToString()}");
+                File.WriteAllText(logPath, ex.ToString());
             }
             finally
             {
@@ -101,8 +100,6 @@ namespace RebarComponentInserter
 
             return false;
         }
-
-        private Distance[] ConvertToDistanceList() => [.. DistanceList.Parse(_data.Spacing)];
 
         private void CheckIfCanInsertComponents()
         {
@@ -118,23 +115,12 @@ namespace RebarComponentInserter
                     break;
                 }
             }
-            if (ifExist == false)
-                throw new Exception(
-                    $"В каталоге компонентов не обнаружено компонента детали с именем {_data.ComponentName}"
-                );
-        }
-
-        private SpacingType ConvertSpacingType()
-        {
-            return _data.SpacingType switch
+            if (!ifExist)
             {
-                0 => SpacingType.FirstFlexibleExist,
-                1 => SpacingType.LastFlexibleExist,
-                2 => SpacingType.FirstFlexibleExclude,
-                3 => SpacingType.LastFlexibleExclude,
-                4 => SpacingType.DistanceList,
-                _ => throw new NotImplementedException("Тип раскладки шага не поддерживается"),
-            };
+                throw new Exception(
+                    $"В каталоге компонентов не обнаружено компонента детали с именем \"{_data.ComponentName}\""
+                );
+            }
         }
 
         private static TransformationPlane GetWallPlane(Beam wall)
@@ -154,11 +140,6 @@ namespace RebarComponentInserter
             }
 
             throw new NotImplementedException("Cannot calculate the height of the panel");
-        }
-
-        private static SpacingType ConvertSpacingType(int spacingType)
-        {
-            return (SpacingType)spacingType;
         }
     }
 }
