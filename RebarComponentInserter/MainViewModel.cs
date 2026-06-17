@@ -25,8 +25,8 @@ namespace RebarComponentInserter
 
         private string _udaStringName1 = "udaStringName1";
 
-        [StructuresDialog(AttributeNames.UDAStringName1, typeof(TD.String))]
-        public string UDAStringName1
+        [StructuresDialog(AttributeNames.UdaStringName1, typeof(TD.String))]
+        public string UdaStringName1
         {
             get { return _udaStringName1; }
             set
@@ -38,8 +38,8 @@ namespace RebarComponentInserter
 
         private string _udaStringName2 = "udaStringName2";
 
-        [StructuresDialog(AttributeNames.UDAStringName2, typeof(TD.String))]
-        public string UDAStringName2
+        [StructuresDialog(AttributeNames.UdaStringName2, typeof(TD.String))]
+        public string UdaStringName2
         {
             get { return _udaStringName2; }
             set
@@ -51,8 +51,8 @@ namespace RebarComponentInserter
 
         private string _udaStringValue1 = "udaStringValue1";
 
-        [StructuresDialog(AttributeNames.UDAStringValue1, typeof(TD.String))]
-        public string UDAStringValue1
+        [StructuresDialog(AttributeNames.UdaStringValue1, typeof(TD.String))]
+        public string UdaStringValue1
         {
             get { return _udaStringValue1; }
             set
@@ -64,8 +64,8 @@ namespace RebarComponentInserter
 
         private string _udaStringValue2 = "udaStringValue2";
 
-        [StructuresDialog(AttributeNames.UDAStringValue2, typeof(TD.String))]
-        public string UDAStringValue2
+        [StructuresDialog(AttributeNames.UdaStringValue2, typeof(TD.String))]
+        public string UdaStringValue2
         {
             get { return _udaStringValue2; }
             set
@@ -77,8 +77,8 @@ namespace RebarComponentInserter
 
         private string _udaDoubleName1 = "udaDoubleName1";
 
-        [StructuresDialog(AttributeNames.UDADoubleName1, typeof(TD.Double))]
-        public string UDADoubleName1
+        [StructuresDialog(AttributeNames.UdaDoubleName1, typeof(TD.String))]
+        public string UdaDoubleName1
         {
             get { return _udaDoubleName1; }
             set
@@ -90,8 +90,8 @@ namespace RebarComponentInserter
 
         private string _udaDoubleName2 = "udaDoubleName2";
 
-        [StructuresDialog(AttributeNames.UDADoubleName2, typeof(TD.Double))]
-        public string UDADoubleName2
+        [StructuresDialog(AttributeNames.UdaDoubleName2, typeof(TD.String))]
+        public string UdaDoubleName2
         {
             get { return _udaDoubleName2; }
             set
@@ -101,10 +101,10 @@ namespace RebarComponentInserter
             }
         }
 
-        private double _udaDoubleValue1 = 1000d;
+        private TD.Distance _udaDoubleValue1 = new(1000d);
 
-        [StructuresDialog(AttributeNames.UDADoubleValue1, typeof(TD.Double))]
-        public double UDADoubleValue1
+        [StructuresDialog(AttributeNames.UdaDoubleValue1, typeof(TD.Distance))]
+        public TD.Distance UdaDoubleValue1
         {
             get { return _udaDoubleValue1; }
             set
@@ -114,10 +114,10 @@ namespace RebarComponentInserter
             }
         }
 
-        private double _udaDoubleValue2 = 1000d;
+        private TD.Distance _udaDoubleValue2 = new(1000d);
 
-        [StructuresDialog(AttributeNames.UDADoubleValue2, typeof(TD.Double))]
-        public double UDADoubleValue2
+        [StructuresDialog(AttributeNames.UdaDoubleValue2, typeof(TD.Distance))]
+        public TD.Distance UdaDoubleValue2
         {
             get { return _udaDoubleValue2; }
             set

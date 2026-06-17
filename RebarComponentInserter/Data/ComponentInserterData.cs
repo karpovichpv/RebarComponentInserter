@@ -2,47 +2,33 @@
 using Tekla.Structures.Model;
 using Distance = Tekla.Structures.Datatype.Distance;
 
-namespace RebarComponentInserter
+namespace RebarComponentInserter.Data
 {
-    internal enum SpacingType
-    {
-        /// <summary>
-        /// Not set
-        /// </summary>
-        NotSet,
-
-        /// <summary>
-        /// First flexible spacing and first component exist
-        /// </summary>
-        FirstFlexibleExist,
-
-        /// <summary>
-        /// Last flexible spacing and first component exist
-        /// </summary>
-        LastFlexibleExist,
-
-        /// <summary>
-        /// First flexible spacing and first component exclude
-        /// </summary>
-        FirstFlexibleExclude,
-
-        /// <summary>
-        /// First flexible spacing and last component exclude
-        /// </summary>
-        LastFlexibleExclude,
-
-        /// <summary>
-        /// Spacing list 
-        /// </summary>
-        DistanceList,
-    }
-
     internal class ComponentInserterData
     {
+        /// <summary>
+        /// Стена
+        /// </summary>
         public Beam Wall { get; set; }
+
+        /// <summary>
+        /// Начальная точка раскладки каркасов
+        /// </summary>
         public Point StartPoint { get; set; }
+
+        /// <summary>
+        /// Конечная точка раскладки каркасов
+        /// </summary>
         public Point EndPoint { get; set; }
+
+        /// <summary>
+        /// Имя компонента, который будет вставлен в стену
+        /// </summary>
         public string ComponentName { get; set; }
+
+        /// <summary>
+        /// Имя атрибута компонента
+        /// </summary>
         public string ComponentAttributeName { get; set; }
 
         /// <summary>
@@ -81,5 +67,11 @@ namespace RebarComponentInserter
         /// Добавлять деталь из каркаса в сборку панели
         /// </summary>
         public bool AddPartToAssembly { get; internal set; }
+
+        /// <summary>
+        /// Данные атрибутов,
+        /// которые будут записаны в каркас компонента
+        /// </summary>
+        public AttributesData Attributes { get; internal set; }
     }
 }

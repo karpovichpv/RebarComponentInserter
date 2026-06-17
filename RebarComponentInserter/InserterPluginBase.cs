@@ -1,21 +1,17 @@
-using RebarComponentInserter.Data;
+﻿using RebarComponentInserter.Data;
 using RebarComponentInserter.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
 using Tekla.Structures;
 using Tekla.Structures.Catalogs;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
-using Tekla.Structures.Model.UI;
 using Tekla.Structures.Plugins;
 
 namespace RebarComponentInserter
 {
-    [Plugin("pk_RebarComponentInserter")]
-    [PluginUserInterface("RebarComponentInserter.MainWindow")]
-    public class RebarComponentInserterPlugin : PluginBase
+    public abstract class InserterPluginBaseClass : PluginBase
     {
         private readonly Model _model;
         private readonly WorkPlaneHandler _workPlaneHandler;
@@ -24,7 +20,7 @@ namespace RebarComponentInserter
 
         private System.Reflection.Assembly PluginAssembly => GetType().Assembly;
 
-        public RebarComponentInserterPlugin(PluginData data)
+        public InserterPluginBaseClass(PluginData data)
         {
             _data = data;
             Model model = new();
@@ -33,16 +29,6 @@ namespace RebarComponentInserter
             _workPlaneHandler = workPlaneHandler;
             _basicTransformationPlane = workPlaneHandler.GetCurrentTransformationPlane();
             _model = model;
-        }
-
-        public override List<InputDefinition> DefineInput()
-        {
-            Picker picker = new();
-            ModelObject modelObject = picker.PickObject(
-                Picker.PickObjectEnum.PICK_ONE_PART,
-                "Select a wall"
-            );
-            return [new InputDefinition(modelObject.Identifier)];
         }
 
         public override bool Run(List<InputDefinition> input)
@@ -97,7 +83,7 @@ namespace RebarComponentInserter
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Возникла ошибка выполнения плагина! \r\n Message: {ex.Message}");
+                System.Windows.MessageBox.Show($"Возникла ошибка выполнения плагина! \r\n Message: {ex.Message}");
                 string logPath = Path.Combine(
                     Path.GetDirectoryName(PluginAssembly.Location) ?? string.Empty,
                     "log.txt"

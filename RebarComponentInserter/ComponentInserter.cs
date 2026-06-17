@@ -1,4 +1,5 @@
-﻿using RebarComponentInserter.Extensions;
+﻿using RebarComponentInserter.Data;
+using RebarComponentInserter.Extensions;
 using System;
 using System.Collections.Generic;
 using Tekla.Structures.Geometry3d;
@@ -12,8 +13,35 @@ namespace RebarComponentInserter
         public static void Insert(ComponentInserterData data)
         {
             List<CustomPart> components = CreateComponents(data);
-            List<Part> targetParts = GetTargetPartsForAttachingThemToAssembly(data, components);
+            AttachToWallAssembly(data, components);
+            WriteAttributes(data, components);
+        }
 
+        private static void WriteAttributes(ComponentInserterData data, List<CustomPart> components)
+        {
+            foreach (CustomPart part in components)
+            {
+                SetAttributesToCustomPart(data.Attributes.UdaStringName1, data.Attributes.UdaStringValue1, part);
+                SetAttributesToCustomPart(data.Attributes.UdaStringName2, data.Attributes.UdaStringValue2, part);
+                SetAttributesToCustomPart(data.Attributes.UdaDoubleName1, data.Attributes.UdaDoubleValue1, part);
+                SetAttributesToCustomPart(data.Attributes.UdaDoubleName2, data.Attributes.UdaDoubleValue2, part);
+            }
+        }
+
+        private static void SetAttributesToCustomPart<T>(string name, T value, CustomPart part)
+        {
+            if (name is not null)
+            {
+                if (value is string stringValue)
+                    part.SetUserProperty(name, stringValue);
+                else if (value is double doubleValue)
+                    part.SetUserProperty(name, doubleValue);
+            }
+        }
+
+        private static void AttachToWallAssembly(ComponentInserterData data, List<CustomPart> components)
+        {
+            List<Part> targetParts = GetTargetPartsForAttachingThemToAssembly(data, components);
             Assembly mainAssembly = data.Wall.GetAssembly();
             foreach (Part part in targetParts)
             {
@@ -95,11 +123,11 @@ namespace RebarComponentInserter
             };
 
             double wallWidth = GetReportProperty(data.Wall, "WIDTH");
-            if (string.IsNullOrEmpty(data.RawWidthAttributeName))
+            if (!string.IsNullOrEmpty(data.RawWidthAttributeName))
                 customPart.SetAttribute(data.RawWidthAttributeName, wallWidth);
 
             double wallHeight = GetReportProperty(data.Wall, "HEIGHT");
-            if (string.IsNullOrEmpty(data.RawHeightAttributeName))
+            if (!string.IsNullOrEmpty(data.RawHeightAttributeName))
                 customPart.SetAttribute(data.RawHeightAttributeName, wallHeight);
 
             customPart.Modify();

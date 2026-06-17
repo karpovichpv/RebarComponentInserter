@@ -31,24 +31,24 @@ namespace RebarComponentInserter
         [StructuresField(AttributeNames.ComponentRawHeight)]
         public string ComponentRawHeight;
 
-        [StructuresField(AttributeNames.UDAStringName1)]
-        public string UDAStringName1;
-        [StructuresField(AttributeNames.UDAStringValue1)]
-        public string UDAStringValue1;
+        [StructuresField(AttributeNames.UdaStringName1)]
+        public string UdaStringName1;
+        [StructuresField(AttributeNames.UdaStringValue1)]
+        public string UdaStringValue1;
 
-        [StructuresField(AttributeNames.UDAStringName2)]
-        public string UDAStringName2;
-        [StructuresField(AttributeNames.UDAStringValue2)]
-        public string UDAStringValue2;
+        [StructuresField(AttributeNames.UdaStringName2)]
+        public string UdaStringName2;
+        [StructuresField(AttributeNames.UdaStringValue2)]
+        public string UdaStringValue2;
 
-        [StructuresField(AttributeNames.UDADoubleName1)]
-        public string UDADoubleName1;
-        [StructuresField(AttributeNames.UDADoubleValue1)]
-        public double UDADoubleValue1;
+        [StructuresField(AttributeNames.UdaDoubleName1)]
+        public string UdaDoubleName1;
+        [StructuresField(AttributeNames.UdaDoubleValue1)]
+        public double UdaDoubleValue1;
 
-        [StructuresField(AttributeNames.UDADoubleName2)]
-        public string UDADoubleName2;
-        [StructuresField(AttributeNames.UDADoubleValue2)]
-        public double UDADoubleValue2;
+        [StructuresField(AttributeNames.UdaDoubleName2)]
+        public string UdaDoubleName2;
+        [StructuresField(AttributeNames.UdaDoubleValue2)]
+        public double UdaDoubleValue2;
     }
 }
