@@ -3,7 +3,6 @@ using RebarComponentInserter.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Tekla.Structures;
 using Tekla.Structures.Catalogs;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
@@ -13,7 +12,8 @@ namespace RebarComponentInserter
 {
     public abstract class InserterPluginBaseClass : PluginBase
     {
-        private readonly Model _model;
+        private protected readonly Model _model;
+
         private readonly WorkPlaneHandler _workPlaneHandler;
         private readonly TransformationPlane _basicTransformationPlane;
         private readonly PluginData _data;
@@ -31,6 +31,8 @@ namespace RebarComponentInserter
             _model = model;
         }
 
+        private protected abstract InserterPluginInputData GetPluginInputData(List<InputDefinition> input);
+
         public override bool Run(List<InputDefinition> input)
         {
             try
@@ -40,46 +42,49 @@ namespace RebarComponentInserter
                 if (input.Count == 0)
                     return false;
 
-                Identifier firstElement = input[0].GetInput() as Identifier;
-                ModelObject selectedModelObject = _model.SelectModelObject(firstElement);
 
-                if (selectedModelObject is Beam wall)
+                InserterPluginInputData pluginData = GetPluginInputData(input);
+                Beam wall = pluginData.Wall;
+                Point startPoint = pluginData.StartPoint;
+                Point endPoint = pluginData.EndPoint;
+
+                var wallPlane = GetWallPlane(wall);
+                _workPlaneHandler.SetCurrentTransformationPlane(wallPlane);
+                Point startPointTransformed = wallPlane.TransformationMatrixToLocal.Transform(_basicTransformationPlane.TransformationMatrixToGlobal.Transform(pluginData.StartPoint));
+                Point endPointTransformed = wallPlane.TransformationMatrixToLocal.Transform(_basicTransformationPlane.TransformationMatrixToGlobal.Transform(pluginData.EndPoint));
+
+                SpacingType spacingType = InserterHelpers.ConvertSpacingType(_data.SpacingType);
+
+                ComponentInserterData data = new()
                 {
-                    var wallPlane = GetWallPlane(wall);
-                    _workPlaneHandler.SetCurrentTransformationPlane(wallPlane);
-
-                    SpacingType spacingType = InserterHelpers.ConvertSpacingType(_data.SpacingType);
-                    ComponentInserterData data = new()
+                    ComponentAttributeName = _data.ComponentAttribute,
+                    ComponentName = _data.ComponentName,
+                    Wall = wall,
+                    StartPoint = startPointTransformed,
+                    EndPoint = endPointTransformed,
+                    Spacings = InserterHelpers.ConvertToDistanceList(_data, startPointTransformed, endPointTransformed),
+                    SpacingType = spacingType,
+                    RawWidthAttributeName = _data.ComponentRawWidth,
+                    RawHeightAttributeName = _data.ComponentRawHeight,
+                    OffsetFromEnd = _data.OffsetFromEnd,
+                    PartToAssemblyClass = _data.ClassNumber,
+                    AddPartToAssembly = _data.AddPartToAssembly == 1,
+                    Attributes = new AttributesData
                     {
-                        ComponentAttributeName = _data.ComponentAttribute,
-                        ComponentName = _data.ComponentName,
-                        Wall = wall,
-                        StartPoint = wall.StartPoint,
-                        EndPoint = wall.EndPoint,
-                        Spacings = InserterHelpers.ConvertToDistanceList(_data, wall.StartPoint, wall.EndPoint),
-                        SpacingType = spacingType,
-                        RawWidthAttributeName = _data.ComponentRawWidth,
-                        RawHeightAttributeName = _data.ComponentRawHeight,
-                        OffsetFromEnd = _data.OffsetFromEnd,
-                        PartToAssemblyClass = _data.ClassNumber,
-                        AddPartToAssembly = _data.AddPartToAssembly == 1,
-                        Attributes = new AttributesData
-                        {
-                            UdaStringName1 = _data.UdaStringName1,
-                            UdaStringName2 = _data.UdaStringName2,
-                            UdaStringValue1 = _data.UdaStringValue1,
-                            UdaStringValue2 = _data.UdaStringValue2,
-                            UdaDoubleName1 = _data.UdaDoubleName1,
-                            UdaDoubleName2 = _data.UdaDoubleName2,
-                            UdaDoubleValue1 = _data.UdaDoubleValue1,
-                            UdaDoubleValue2 = _data.UdaDoubleValue2
-                        }
-                    };
+                        UdaStringName1 = _data.UdaStringName1,
+                        UdaStringName2 = _data.UdaStringName2,
+                        UdaStringValue1 = _data.UdaStringValue1,
+                        UdaStringValue2 = _data.UdaStringValue2,
+                        UdaDoubleName1 = _data.UdaDoubleName1,
+                        UdaDoubleName2 = _data.UdaDoubleName2,
+                        UdaDoubleValue1 = _data.UdaDoubleValue1,
+                        UdaDoubleValue2 = _data.UdaDoubleValue2
+                    }
+                };
 
-                    ComponentInserter.Insert(data);
+                ComponentInserter.Insert(data);
 
-                    return true;
-                }
+                return true;
             }
             catch (Exception ex)
             {
