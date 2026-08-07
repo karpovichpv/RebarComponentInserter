@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:RebarComponentInserter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tsd="clr-namespace:Tekla.Structures.Dialog;assembly=Tekla.Structures.Dialog"
-    Title="Создание и добавление каркасов в сборку панели"
+    Title="{Binding BuildDate, StringFormat='Создание и добавление каркасов в сборку панели — {0}'}"
     Width="700"
     Height="550"
     MinHeight="450"

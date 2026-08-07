@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Tekla.Structures.Dialog;
 using TD = Tekla.Structures.Datatype;
@@ -10,6 +12,27 @@ namespace RebarComponentInserter
     /// </summary>
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        public string BuildDate { get; } = ReadBuildDate();
+
+        private static string ReadBuildDate()
+        {
+            try
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                using Stream stream = assembly.GetManifestResourceStream(
+                    "RebarComponentInserter.Resources.BuildDate.md"
+                );
+                if (stream == null)
+                    return "unknown";
+                using StreamReader reader = new(stream);
+                return reader.ReadToEnd().Trim();
+            }
+            catch
+            {
+                return "unknown";
+            }
+        }
+
         private string _componentName = "Каркас_1";
 
         [StructuresDialog(AttributeNames.ComponentName, typeof(TD.String))]
