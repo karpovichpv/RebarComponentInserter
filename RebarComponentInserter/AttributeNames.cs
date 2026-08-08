@@ -4,7 +4,7 @@
     {
         public const string ComponentName = "ComponentName";
         public const string ComponentAttribute = "ComponentAttribute";
-        public const string OffsetsFromEnd = "OffsetsFromEnds";
+        public const string OffsetsFromEnd = "OffsetFromEnd";
         public const string SpacingType = "SpacingType";
         public const string ClassNumber = "ClassNumber";
         public const string ComponentRawWidth = "ComponentRawWidth";
@@ -23,5 +23,8 @@
 
         public const string UdaDoubleName2 = "UdaDoubleName2";
         public const string UdaDoubleValue2 = "UdaDoubleValue2";
+
+        public const string ComponentRotationAngle = "ComponentRotationAngle";
+        public const string OffsetFromStart = "OffsetFromStart";
     }
 }

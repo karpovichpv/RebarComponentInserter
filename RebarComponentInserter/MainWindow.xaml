@@ -42,7 +42,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -148,20 +147,6 @@
                         Orientation="Horizontal">
                         <Label
                     Width="250"
-                    Content="Отступ каркаса от концов"/>
-                        <UIControls:WpfFilterCheckBox
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    AttributeName="{x:Static local:AttributeNames.OffsetsFromEnd}"/>
-                        <TextBox
-                    Width="200"
-                    Text="{Binding OffsetFromEnd, Mode=TwoWay}"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="7"
-                        Orientation="Horizontal">
-                        <Label
-                    Width="250"
                     Content="Передать ширину стены в атрибут"/>
                         <UIControls:WpfFilterCheckBox
                     HorizontalAlignment="Left"
@@ -172,7 +157,7 @@
                     Text="{Binding ComponentRawWidth, Mode=TwoWay}"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="8"
+                    <StackPanel Grid.Row="7"
                         Orientation="Horizontal">
                         <Label
                     Width="250"
@@ -308,6 +293,57 @@
                     Text="{Binding UdaDoubleValue2, Mode=TwoWay}"/>
                     </StackPanel>
 
+                </Grid>
+            </TabItem>
+            <TabItem Header="Позиция">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0"
+                        Orientation="Horizontal">
+                        <Label
+                    Width="250"
+                    Content="Угол поворота компонента"/>
+                        <UIControls:WpfFilterCheckBox
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    AttributeName="{x:Static local:AttributeNames.ComponentRotationAngle}"/>
+                        <TextBox
+                    Width="200"
+                    Text="{Binding ComponentRotationAngle, Mode=TwoWay}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1"
+                        Orientation="Horizontal">
+                        <Label
+                    Width="250"
+                    Content="Отступ от начала"/>
+                        <UIControls:WpfFilterCheckBox
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    AttributeName="{x:Static local:AttributeNames.OffsetFromStart}"/>
+                        <TextBox
+                    Width="200"
+                    Text="{Binding OffsetFromStart, Mode=TwoWay}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2"
+                        Orientation="Horizontal">
+                        <Label
+                    Width="250"
+                    Content="Отступ от конца"/>
+                        <UIControls:WpfFilterCheckBox
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    AttributeName="{x:Static local:AttributeNames.OffsetsFromEnd}"/>
+                        <TextBox
+                    Width="200"
+                    Text="{Binding OffsetFromEnd, Mode=TwoWay}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

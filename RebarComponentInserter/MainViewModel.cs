@@ -254,6 +254,32 @@ namespace RebarComponentInserter
             }
         }
 
+        private TD.Distance _componentRotationAngle = new(0d);
+
+        [StructuresDialog(AttributeNames.ComponentRotationAngle, typeof(TD.Distance))]
+        public TD.Distance ComponentRotationAngle
+        {
+            get { return _componentRotationAngle; }
+            set
+            {
+                _componentRotationAngle = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private TD.Distance _offsetFromStart = new(50d);
+
+        [StructuresDialog(AttributeNames.OffsetFromStart, typeof(TD.Distance))]
+        public TD.Distance OffsetFromStart
+        {
+            get { return _offsetFromStart; }
+            set
+            {
+                _offsetFromStart = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string name = "")

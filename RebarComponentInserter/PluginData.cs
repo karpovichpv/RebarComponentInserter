@@ -10,7 +10,7 @@ namespace RebarComponentInserter
         [StructuresField(AttributeNames.ComponentAttribute)]
         public string ComponentAttribute;
 
-        [StructuresField(AttributeNames.OffsetsFromEnd)]
+        [StructuresField(AttributeNames.OffsetFromEnd)]
         public double OffsetFromEnd;
 
         [StructuresField(AttributeNames.SpacingType)]
@@ -50,5 +50,11 @@ namespace RebarComponentInserter
         public string UdaDoubleName2;
         [StructuresField(AttributeNames.UdaDoubleValue2)]
         public double UdaDoubleValue2;
+
+        [StructuresField(AttributeNames.ComponentRotationAngle)]
+        public double ComponentRotationAngle;
+
+        [StructuresField(AttributeNames.OffsetFromStart)]
+        public double OffsetFromStart;
     }
 }

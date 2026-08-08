@@ -6,6 +6,7 @@
 # References folder
 References/
 .claude/
+.qwen/
 
 # User-specific files
 *.rsuser
