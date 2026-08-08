@@ -59,6 +59,16 @@ namespace RebarComponentInserter.Data
         public double OffsetFromEnd { get; internal set; }
 
         /// <summary>
+        /// Угол поворота компонента
+        /// </summary>
+        public double RotationAngle { get; internal set; }
+
+        /// <summary>
+        /// Отступ каркасов от начала панели
+        /// </summary>
+        public double OffsetFromStart { get; internal set; }
+
+        /// <summary>
         /// Класс детали, который будет включен в сборку панели
         /// </summary>
         public int PartToAssemblyClass { get; internal set; }

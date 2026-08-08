@@ -1,6 +1,6 @@
-﻿using RebarComponentInserter.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RebarComponentInserter.Data;
 using Tekla.Structures.Datatype;
 using Tekla.Structures.Geometry3d;
 using Distance = Tekla.Structures.Datatype.Distance;
@@ -16,10 +16,16 @@ namespace RebarComponentInserter.Extensions
         /// <param name="totalCount">Количество каркасов</param>
         /// <param name="currentNumber">Текущий номер каркаса</param>
         /// <returns>Необходимо ли создавать каркас в этой точке</returns>
-        public static bool CheckIfCreationNeeded(SpacingType spacingType, int totalCount, int currentNumber)
+        public static bool CheckIfCreationNeeded(
+            SpacingType spacingType,
+            int totalCount,
+            int currentNumber
+        )
         {
-            bool isFirstExcluded = spacingType == SpacingType.FirstFlexibleExclude && currentNumber == 0;
-            bool isLastExcluded = spacingType == SpacingType.LastFlexibleExclude && currentNumber == totalCount;
+            bool isFirstExcluded =
+                spacingType == SpacingType.FirstFlexibleExclude && currentNumber == 0;
+            bool isLastExcluded =
+                spacingType == SpacingType.LastFlexibleExclude && currentNumber == totalCount;
 
             return !isFirstExcluded && !isLastExcluded;
         }
@@ -34,7 +40,8 @@ namespace RebarComponentInserter.Extensions
         public static Distance[] ConvertToDistanceList(
             PluginData data,
             Point aStartPoint,
-            Point aEndPoint)
+            Point aEndPoint
+        )
         {
             SpacingType spacingType = ConvertSpacingType(data.SpacingType);
             Distance[] rawDistanceList = [.. DistanceList.Parse(data.Spacings)];
@@ -42,7 +49,9 @@ namespace RebarComponentInserter.Extensions
             if (spacingType != SpacingType.DistanceList)
             {
                 List<Distance> listResult = [];
-                double distance = aStartPoint.GetDistance(aEndPoint) - (data.OffsetFromEnd * 2);
+                double distance =
+                    aStartPoint.GetDistance(aEndPoint)
+                    - (data.OffsetFromStart + data.OffsetFromEnd);
                 double firstSpacing = rawDistanceList[0].Value;
                 int count = (int)Math.Ceiling(distance / firstSpacing);
                 double flexibleSpacing = distance - (firstSpacing * (count - 1));
@@ -82,7 +91,11 @@ namespace RebarComponentInserter.Extensions
             };
         }
 
-        private static bool CheckIfNeedToAddFlexibleSpacing(SpacingType spacingType, int count, int i)
+        private static bool CheckIfNeedToAddFlexibleSpacing(
+            SpacingType spacingType,
+            int count,
+            int i
+        )
         {
             bool isFirstFlexible =
                 i == 1

@@ -1,7 +1,7 @@
-﻿using RebarComponentInserter.Data;
-using RebarComponentInserter.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RebarComponentInserter.Data;
+using RebarComponentInserter.Extensions;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 using Distance = Tekla.Structures.Datatype.Distance;
@@ -21,10 +21,26 @@ namespace RebarComponentInserter
         {
             foreach (CustomPart part in components)
             {
-                SetAttributesToCustomPart(data.Attributes.UdaStringName1, data.Attributes.UdaStringValue1, part);
-                SetAttributesToCustomPart(data.Attributes.UdaStringName2, data.Attributes.UdaStringValue2, part);
-                SetAttributesToCustomPart(data.Attributes.UdaDoubleName1, data.Attributes.UdaDoubleValue1, part);
-                SetAttributesToCustomPart(data.Attributes.UdaDoubleName2, data.Attributes.UdaDoubleValue2, part);
+                SetAttributesToCustomPart(
+                    data.Attributes.UdaStringName1,
+                    data.Attributes.UdaStringValue1,
+                    part
+                );
+                SetAttributesToCustomPart(
+                    data.Attributes.UdaStringName2,
+                    data.Attributes.UdaStringValue2,
+                    part
+                );
+                SetAttributesToCustomPart(
+                    data.Attributes.UdaDoubleName1,
+                    data.Attributes.UdaDoubleValue1,
+                    part
+                );
+                SetAttributesToCustomPart(
+                    data.Attributes.UdaDoubleName2,
+                    data.Attributes.UdaDoubleValue2,
+                    part
+                );
             }
         }
 
@@ -39,7 +55,10 @@ namespace RebarComponentInserter
             }
         }
 
-        private static void AttachToWallAssembly(ComponentInserterData data, List<CustomPart> components)
+        private static void AttachToWallAssembly(
+            ComponentInserterData data,
+            List<CustomPart> components
+        )
         {
             List<Part> targetParts = GetTargetPartsForAttachingThemToAssembly(data, components);
             Assembly mainAssembly = data.Wall.GetAssembly();
@@ -80,7 +99,7 @@ namespace RebarComponentInserter
             Vector axisX = data.Wall.GetCoordinateSystem().AxisX;
             Vector axisY = data.Wall.GetCoordinateSystem().AxisY;
 
-            Point startPoint = data.StartPoint.Copy(axisX, data.OffsetFromEnd);
+            Point startPoint = data.StartPoint.Copy(axisX, data.OffsetFromStart);
             double currentDistance = 0;
             int totalCount = data.Spacings.Length;
             for (int i = 0; i <= totalCount; i++)
@@ -88,7 +107,8 @@ namespace RebarComponentInserter
                 if (InserterHelpers.CheckIfCreationNeeded(data.SpacingType, totalCount, i))
                 {
                     insertedComponents.Add(
-                        InsertComponent(startPoint.Copy(axisX, currentDistance), axisY, data));
+                        InsertComponent(startPoint.Copy(axisX, currentDistance), axisY, data)
+                    );
                 }
 
                 if (i < totalCount)
@@ -119,7 +139,7 @@ namespace RebarComponentInserter
                 DepthOffset = 0,
                 PlaneOffset = 0,
                 Rotation = Position.RotationEnum.BELOW,
-                RotationOffset = 90,
+                RotationOffset = data.RotationAngle + 90,
             };
 
             double wallWidth = GetReportProperty(data.Wall, "WIDTH");

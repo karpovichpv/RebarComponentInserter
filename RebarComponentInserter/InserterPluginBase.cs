@@ -67,6 +67,8 @@ namespace RebarComponentInserter
                     RawWidthAttributeName = _data.ComponentRawWidth,
                     RawHeightAttributeName = _data.ComponentRawHeight,
                     OffsetFromEnd = _data.OffsetFromEnd,
+                    RotationAngle = _data.ComponentRotationAngle,
+                    OffsetFromStart = _data.OffsetFromStart,
                     PartToAssemblyClass = _data.ClassNumber,
                     AddPartToAssembly = _data.AddPartToAssembly == 1,
                     Attributes = new AttributesData

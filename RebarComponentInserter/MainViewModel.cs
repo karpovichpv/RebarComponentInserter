@@ -191,7 +191,7 @@ namespace RebarComponentInserter
 
         private TD.Distance _offsetFromEnd = new(50d);
 
-        [StructuresDialog(AttributeNames.OffsetsFromEnd, typeof(TD.Distance))]
+        [StructuresDialog(AttributeNames.OffsetFromEnd, typeof(TD.Distance))]
         public TD.Distance OffsetFromEnd
         {
             get { return _offsetFromEnd; }
