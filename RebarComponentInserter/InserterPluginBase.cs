@@ -1,8 +1,8 @@
-﻿using RebarComponentInserter.Data;
-using RebarComponentInserter.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using RebarComponentInserter.Data;
+using RebarComponentInserter.Extensions;
 using Tekla.Structures.Catalogs;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
@@ -23,6 +23,7 @@ namespace RebarComponentInserter
         public InserterPluginBaseClass(PluginData data)
         {
             _data = data;
+            CheckAndFixData(data);
             Model model = new();
             WorkPlaneHandler workPlaneHandler = model.GetWorkPlaneHandler();
 
@@ -31,7 +32,9 @@ namespace RebarComponentInserter
             _model = model;
         }
 
-        private protected abstract InserterPluginInputData GetPluginInputData(List<InputDefinition> input);
+        private protected abstract InserterPluginInputData GetPluginInputData(
+            List<InputDefinition> input
+        );
 
         public override bool Run(List<InputDefinition> input)
         {
@@ -42,7 +45,6 @@ namespace RebarComponentInserter
                 if (input.Count == 0)
                     return false;
 
-
                 InserterPluginInputData pluginData = GetPluginInputData(input);
                 Beam wall = pluginData.Wall;
                 Point startPoint = pluginData.StartPoint;
@@ -50,8 +52,16 @@ namespace RebarComponentInserter
 
                 var wallPlane = GetWallPlane(wall);
                 _workPlaneHandler.SetCurrentTransformationPlane(wallPlane);
-                Point startPointTransformed = wallPlane.TransformationMatrixToLocal.Transform(_basicTransformationPlane.TransformationMatrixToGlobal.Transform(pluginData.StartPoint));
-                Point endPointTransformed = wallPlane.TransformationMatrixToLocal.Transform(_basicTransformationPlane.TransformationMatrixToGlobal.Transform(pluginData.EndPoint));
+                Point startPointTransformed = wallPlane.TransformationMatrixToLocal.Transform(
+                    _basicTransformationPlane.TransformationMatrixToGlobal.Transform(
+                        pluginData.StartPoint
+                    )
+                );
+                Point endPointTransformed = wallPlane.TransformationMatrixToLocal.Transform(
+                    _basicTransformationPlane.TransformationMatrixToGlobal.Transform(
+                        pluginData.EndPoint
+                    )
+                );
 
                 SpacingType spacingType = InserterHelpers.ConvertSpacingType(_data.SpacingType);
 
@@ -62,7 +72,11 @@ namespace RebarComponentInserter
                     Wall = wall,
                     StartPoint = startPointTransformed,
                     EndPoint = endPointTransformed,
-                    Spacings = InserterHelpers.ConvertToDistanceList(_data, startPointTransformed, endPointTransformed),
+                    Spacings = InserterHelpers.ConvertToDistanceList(
+                        _data,
+                        startPointTransformed,
+                        endPointTransformed
+                    ),
                     SpacingType = spacingType,
                     RawWidthAttributeName = _data.ComponentRawWidth,
                     RawHeightAttributeName = _data.ComponentRawHeight,
@@ -80,8 +94,8 @@ namespace RebarComponentInserter
                         UdaDoubleName1 = _data.UdaDoubleName1,
                         UdaDoubleName2 = _data.UdaDoubleName2,
                         UdaDoubleValue1 = _data.UdaDoubleValue1,
-                        UdaDoubleValue2 = _data.UdaDoubleValue2
-                    }
+                        UdaDoubleValue2 = _data.UdaDoubleValue2,
+                    },
                 };
 
                 ComponentInserter.Insert(data);
@@ -90,7 +104,9 @@ namespace RebarComponentInserter
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Возникла ошибка выполнения плагина! \r\n Message: {ex.Message}");
+                System.Windows.MessageBox.Show(
+                    $"Возникла ошибка выполнения плагина! \r\n Message: {ex.Message}"
+                );
                 string logPath = Path.Combine(
                     Path.GetDirectoryName(PluginAssembly.Location) ?? string.Empty,
                     "log.txt"
@@ -145,6 +161,26 @@ namespace RebarComponentInserter
             }
 
             throw new NotImplementedException("Cannot calculate the height of the panel");
+        }
+
+        private void CheckAndFixData(PluginData data)
+        {
+            if (IsDefaultValue(data.AddPartToAssembly))
+                data.AddPartToAssembly = 0;
+            if (IsDefaultValue(data.OffsetFromEnd))
+                data.OffsetFromEnd = 0;
+            if (IsDefaultValue(data.SpacingType))
+                data.SpacingType = 0;
+            if (IsDefaultValue(data.ClassNumber))
+                data.ClassNumber = 0;
+            if (IsDefaultValue(data.UdaDoubleValue1))
+                data.UdaDoubleValue1 = 0;
+            if (IsDefaultValue(data.UdaDoubleValue2))
+                data.UdaDoubleValue2 = 0;
+            if (IsDefaultValue(data.ComponentRotationAngle))
+                data.ComponentRotationAngle = 0;
+            if (IsDefaultValue(data.OffsetFromStart))
+                data.OffsetFromStart = 0;
         }
     }
 }

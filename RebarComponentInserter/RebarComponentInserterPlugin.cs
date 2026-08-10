@@ -9,8 +9,7 @@ namespace RebarComponentInserter
 {
     [Plugin("pk_RebarComponentInserter")]
     [PluginUserInterface("RebarComponentInserter.MainWindow")]
-    public class RebarComponentInserterPlugin(PluginData data)
-        : InserterPluginBaseClass(data)
+    public class RebarComponentInserterPlugin(PluginData data) : InserterPluginBaseClass(data)
     {
         public override List<InputDefinition> DefineInput()
         {
@@ -22,7 +21,9 @@ namespace RebarComponentInserter
             return [new InputDefinition(modelObject.Identifier)];
         }
 
-        private protected override InserterPluginInputData GetPluginInputData(List<InputDefinition> input)
+        private protected override InserterPluginInputData GetPluginInputData(
+            List<InputDefinition> input
+        )
         {
             Identifier firstElement = input[0].GetInput() as Identifier;
             ModelObject selectedModelObject = _model.SelectModelObject(firstElement);
