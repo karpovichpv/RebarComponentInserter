@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using RebarComponentInserter.Data;
 using RebarComponentInserter.Extensions;
 using Tekla.Structures.Catalogs;
@@ -17,8 +16,6 @@ namespace RebarComponentInserter
         private readonly WorkPlaneHandler _workPlaneHandler;
         private readonly TransformationPlane _basicTransformationPlane;
         private readonly PluginData _data;
-
-        private System.Reflection.Assembly PluginAssembly => GetType().Assembly;
 
         public InserterPluginBaseClass(PluginData data)
         {
@@ -40,6 +37,7 @@ namespace RebarComponentInserter
         {
             try
             {
+                Log.Info("start");
                 CheckIfCanInsertComponents();
 
                 if (input.Count == 0)
@@ -104,15 +102,10 @@ namespace RebarComponentInserter
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Plugin execution failed");
                 System.Windows.MessageBox.Show(
                     $"Возникла ошибка выполнения плагина! \r\n Message: {ex.Message}"
                 );
-                string logPath = Path.Combine(
-                    Path.GetDirectoryName(PluginAssembly.Location) ?? string.Empty,
-                    "log.txt"
-                );
-
-                File.WriteAllText(logPath, ex.ToString());
             }
             finally
             {
